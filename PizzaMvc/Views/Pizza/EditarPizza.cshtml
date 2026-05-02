@@ -1,0 +1,35 @@
+@model PizzaMvc.Models.Pizza
+@{
+    ViewBag.Title = "Editar Pizza";
+}
+
+<h2>Editar Pizza</h2>
+<form method="post" action="/Pizza/Edit/@Model.Id">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="mb-3">
+        <label>Nome</label>
+        <input name="Nome" class="form-control" value="@Model.Nome" required />
+    </div>
+    <div class="mb-3">
+        <label>Sabor</label>
+        <input name="Sabor" class="form-control" value="@Model.Sabor" required />
+    </div>
+    <div class="mb-3">
+        <label>Descrição</label>
+        <textarea name="Descricao" class="form-control">@Model.Descricao</textarea>
+    </div>
+    <div class="mb-3">
+        <label>Preço</label>
+        <input name="Preco" type="number" step="0.01" class="form-control" value="@Model.Preco" required />
+    </div>
+    <div class="mb-3">
+        <label>Categoria</label>
+        <select name="Categoria" class="form-control">
+            <option value="Tradicional" @(Model.Categoria == "Tradicional" ? "selected" : "")>Tradicional</option>
+            <option value="Especial" @(Model.Categoria == "Especial" ? "selected" : "")>Especial</option>
+            <option value="Doce" @(Model.Categoria == "Doce" ? "selected" : "")>Doce</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="/Pizza" class="btn btn-secondary">Voltar</a>
+</form>

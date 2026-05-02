@@ -1,0 +1,36 @@
+@model IEnumerable<PizzaMvc.Models.Pizza>
+@{
+    ViewBag.Title = "Pizzas";
+}
+
+<h2>Pizzas</h2>
+<a href="/Pizza/Create" class="btn btn-primary mb-3">Nova Pizza</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Sabor</th>
+            <th>Preço</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nome</td>
+                <td>@item.Sabor</td>
+                <td>@item.Preco.ToString("C")</td>
+                <td>@item.Categoria</td>
+                <td>
+                    <a href="/Pizza/Edit/@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <form action="/Pizza/DeleteConfirmed/@item.Id" method="post" style="display:inline">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('Confirma?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,40 @@
+@model IEnumerable<PizzaMvc.Models.Pedido>
+@{
+    ViewBag.Title = "Pedidos";
+}
+
+<h2>Pedidos</h2>
+<a href="/Pedido/Create" class="btn btn-primary mb-3">Novo Pedido</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@(item.Cliente?.Nome ?? "N/A")</td>
+                <td>@item.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <span class="badge bg-@(item.Status == "Entregue" ? "success" : item.Status == "Pronto" ? "warning" : "secondary")">@item.Status</span>
+                </td>
+                <td>@item.Total.ToString("C")</td>
+                <td>
+                    <a href="/Pedido/Edit/@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <form action="/Pedido/DeleteConfirmed/@item.Id" method="post" style="display:inline">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('Confirma?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

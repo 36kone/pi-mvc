@@ -1,0 +1,59 @@
+@model PizzaMvc.Models.Pedido
+@{
+    ViewBag.Title = "Novo Pedido";
+}
+
+<h2>Novo Pedido</h2>
+<form method="post" action="/Pedido/Create">
+    <div class="mb-3">
+        <label>Cliente</label>
+        <select name="ClienteId" class="form-control" required>
+            <option value="">Selecione...</option>
+            @foreach (var c in ViewBag.Clientes)
+            {
+                <option value="@c.Id">@c.Nome</option>
+            }
+        </select>
+    </div>
+
+    <h4>Itens do Pedido</h4>
+    <div id="itens">
+        <div class="row mb-2 item-row">
+            <div class="col">
+                <select name="pizzaIds" class="form-control" required>
+                    <option value="">Selecione a Pizza...</option>
+                    @foreach (var p in ViewBag.Pizzas)
+                    {
+                        <option value="@p.Id">@p.Nome - @p.Sabor (@p.Preco.ToString("C"))</option>
+                    }
+                </select>
+            </div>
+            <div class="col-3">
+                <input name="quantidades" type="number" min="1" value="1" class="form-control" placeholder="Qtd" required />
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mb-3" onclick="addItem()">+ Adicionar Item</button>
+
+    <div class="mb-3">
+        <label>Status</label>
+        <select name="Status" class="form-control">
+            <option value="Feito">Feito</option>
+            <option value="Em Produção">Em Produção</option>
+            <option value="Pronto">Pronto</option>
+            <option value="Entregue">Entregue</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="/Pedido" class="btn btn-secondary">Voltar</a>
+</form>
+
+<script>
+function addItem() {
+    var row = document.querySelector('.item-row').cloneNode(true);
+    row.querySelectorAll('select, input').forEach(el => el.value = '');
+    document.getElementById('itens').appendChild(row);
+}
+</script>

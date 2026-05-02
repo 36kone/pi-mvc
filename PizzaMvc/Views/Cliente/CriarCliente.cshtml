@@ -1,0 +1,26 @@
+@model PizzaMvc.Models.Cliente
+@{
+    ViewBag.Title = "Novo Cliente";
+}
+
+<h2>Novo Cliente</h2>
+<form method="post" action="/Cliente/Create">
+    <div class="mb-3">
+        <label>Nome</label>
+        <input name="Nome" class="form-control" value="@Model.Nome" required />
+    </div>
+    <div class="mb-3">
+        <label>Telefone</label>
+        <input name="Telefone" class="form-control" value="@Model.Telefone" />
+    </div>
+    <div class="mb-3">
+        <label>Email</label>
+        <input name="Email" type="email" class="form-control" value="@Model.Email" />
+    </div>
+    <div class="mb-3">
+        <label>CPF/CNPJ</label>
+        <input name="CpfCnpj" class="form-control" value="@Model.CpfCnpj" />
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="/Cliente" class="btn btn-secondary">Voltar</a>
+</form>
