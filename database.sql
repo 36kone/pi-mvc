@@ -55,6 +55,16 @@ CREATE TABLE IF NOT EXISTS pagamentos (
     FOREIGN KEY (PedidoId) REFERENCES pedidos(Id)
 );
 
+-- Tabela de usuarios (admin)
+CREATE TABLE IF NOT EXISTS usuarios (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Senha VARCHAR(255) NOT NULL,
+    Tipo VARCHAR(50) NOT NULL DEFAULT 'Admin',
+    DataCriacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Inserir algumas pizzas de exemplo
 INSERT INTO pizzas (Nome, Sabor, Descricao, Preco, Categoria) VALUES
 ('Margherita', 'Queijo e Tomate', 'Molho de tomate, mussarela e manjericao', 35.00, 'Tradicional'),
@@ -63,3 +73,28 @@ INSERT INTO pizzas (Nome, Sabor, Descricao, Preco, Categoria) VALUES
 ('Quatro Queijos', 'Quatro Queijos', 'Mussarela, provolone, gorgonzola e parmesao', 45.00, 'Especial'),
 ('Chocolate', 'Chocolate', 'Chocolate ao leite e granulado', 40.00, 'Doce'),
 ('Brigadeiro', 'Brigadeiro', 'Brigadeiro e chocolate granulado', 42.00, 'Doce');
+
+INSERT INTO clientes (Nome, Telefone, Email, CpfCnpj) VALUES
+('João Silva', '11999999999', 'joao@gmail.com', '12345678900'),
+('Maria Oliveira', '11988888888', 'maria@gmail.com', '98765432100');
+
+-- PEDIDOS
+INSERT INTO pedidos (ClienteId, DataPedido, Status, Total) VALUES
+(1, NOW(), 'Em preparo', 73.00),
+(2, NOW(), 'Entregue', 42.00);
+
+-- ITENS DO PEDIDO
+INSERT INTO itens_pedido (PedidoId, PizzaId, Quantidade, PrecoUnitario) VALUES
+(1, 1, 1, 35.00), -- Margherita
+(1, 2, 1, 38.00), -- Calabresa
+(2, 3, 1, 42.00); -- Portuguesa
+
+-- PAGAMENTOS
+INSERT INTO pagamentos (PedidoId, FormaPagamento, Valor, DataPagamento, Status) VALUES
+(1, 'Cartão de Crédito', 73.00, NOW(), 'Pago'),
+(2, 'PIX', 42.00, NOW(), 'Pago');
+
+-- Inserir usuario admin de exemplo
+INSERT INTO usuarios (Nome, Email, Senha, Tipo) VALUES
+('Admin', 'admin@admin.com', '$2a$11$r3i6tKzq7K7lL7lL7lL7lO8vW9xXyYzZ1234567890123456789012', 'Admin'),
+('Usuario', 'user@email.com', '$2a$11$A1b2C3d4E5f6G7h8I9j0kLmNoPqRsTuVwXyZ12345678901234', 'User');

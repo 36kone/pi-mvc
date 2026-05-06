@@ -1,0 +1,29 @@
+@model PizzaMvc.Models.Usuario
+@{
+    ViewBag.Title = "Novo Usuário";
+}
+
+<h2>Novo Usuário</h2>
+<form method="post" action="/Usuario/Create">
+    <div class="mb-3">
+        <label>Nome</label>
+        <input name="Nome" class="form-control" value="@Model.Nome" required />
+    </div>
+    <div class="mb-3">
+        <label>Email</label>
+        <input name="Email" type="email" class="form-control" value="@Model.Email" required />
+    </div>
+    <div class="mb-3">
+        <label>Senha</label>
+        <input name="Senha" type="password" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Tipo</label>
+        <select name="Tipo" class="form-control">
+            <option value="Admin">Admin</option>
+            <option value="Usuario">Usuário</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="/Usuario" class="btn btn-secondary">Voltar</a>
+</form>

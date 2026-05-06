@@ -12,4 +12,5 @@ public class AppDbContext : DbContext
     public DbSet<Pedido> Pedidos { get; set; }
     public DbSet<ItemPedido> ItensPedido { get; set; }
     public DbSet<Pagamento> Pagamentos { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
 }
