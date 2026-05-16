@@ -1,19 +1,130 @@
 @{
-    ViewBag.Title = "Pizzas & Panuzzos";
+    ViewBag.Title = "Home";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bem-vindo ao Pizzas & Panuzzos</h1>
-    <p class="lead">Sistema de gerenciamento de pedidos de pizzaria</p>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <a href="/Pizza" class="btn btn-lg btn-outline-primary w-100">Cadastrar Pizzas</a>
+<main>
+    <section class="hero">
+        <div class="container hero__content">
+            <div class="hero__text">
+                <h1>Explore as melhores Pizzas artesanais</h1>
+                <p>Descubra sabores incríveis com as Pizzas de longa fermentação.</p>
+            </div>
+            <form class="search-box" method="get" action="@Url.Action("Search", "Home")">
+                <div class="search-box__field">
+                    <span class="search-box__icon">🔍</span>
+                    <input type="text" name="q" placeholder="Buscar por sabor..." />
+                </div>
+                <button type="submit" class="btn btn--secondary">Buscar</button>
+            </form>
+            <div class="hero__filters">
+                <button class="chip chip--active">Todos</button>
+                <button class="chip">Pizzas 30cm</button>
+                <button class="chip">Mini Pizzas</button>
+                <button class="chip">Pizzas Doce</button>
+                <button class="chip">Panuzzo</button>
+                <button class="chip">Bebidas</button>
+            </div>
         </div>
-        <div class="col-md-4">
-            <a href="/Cliente" class="btn btn-lg btn-outline-success w-100">Gerenciar Clientes</a>
+    </section>
+
+    <section class="section" id="destaque">
+        <div class="container">
+            <div class="section__header">
+                <h2>As mais pedidas</h2>
+                <a href="#" class="section__link">Ver todos</a>
+            </div>
+            <div class="cards-row cards-row--large">
+                <!-- Example cards – replace with a foreach over featured items -->
+                <article class="card card--large">
+                    <div class="card__image" style="background-image:url('/imgs/pizza%20panceta.jpeg');"></div>
+                    <div class="card__body">
+                        <h3>Pizza de Panceta</h3>
+                        <p class="card__category">Italiana • Massas</p>
+                        <div class="card__meta"><span>⭐ 4,8</span></div>
+                    </div>
+                </article>
+                <article class="card card--large">
+                    <div class="card__image" style="background-image:url('/imgs/pdoce.jpeg');"></div>
+                    <div class="card__body">
+                        <h3>Banana Flambada</h3>
+                        <p class="card__category">Italiana • Massas • Doce</p>
+                        <div class="card__meta"><span>⭐ 4,7</span></div>
+                    </div>
+                </article>
+                <article class="card card--large">
+                    <div class="card__image" style="background-image:url('/imgs/panuzzo.jpeg');"></div>
+                    <div class="card__body">
+                        <h3>Panuzzo</h3>
+                        <p class="card__category">Lanches • Combos</p>
+                        <div class="card__meta"><span>⭐ 4,6</span></div>
+                    </div>
+                </article>
+            </div>
         </div>
-        <div class="col-md-4">
-            <a href="/Pedido" class="btn btn-lg btn-outline-warning w-100">Ver Pedidos</a>
+    </section>
+
+    <section class="section section--alt" id="cardapio">
+        <div class="container">
+            <div class="section__header section__header--tabs">
+                <h2>Cardápio</h2>
+                <div class="tabs">
+                    <button class="tab tab--active">Todos</button>
+                    <button class="tab">Pizzas de 30CM</button>
+                    <button class="tab">Mini Pizzas</button>
+                    <button class="tab">Pizzas Doce</button>
+                    <button class="tab">Panuzzo</button>
+                    <button class="tab">Bebidas</button>
+                </div>
+            </div>
+            <div class="carousel carousel--menu">
+                <button class="carousel__control carousel__control--prev" aria-label="Anterior">‹</button>
+                <div class="carousel__viewport">
+                    <div class="carousel__track">
+                        <!-- Placeholder cards – populate from model in future -->
+                        <article class="card card">
+                            <div class="card__image" style="background-image:url('/imgs/pizza%20panceta.jpeg');"></div>
+                            <div class="card__body"><h3>Pizzas de 30cm</h3><div class="card__meta"><span>⭐ 4,9</span></div></div>
+                        </article>
+                        <article class="card card">
+                            <div class="card__image" style="background-image:url('/imgs/mini5.jpeg');"></div>
+                            <div class="card__body"><h3>Mini Pizzas</h3><div class="card__meta"><span>⭐ 4,5</span></div></div>
+                        </article>
+                        <article class="card card">
+                            <div class="card__image" style="background-image:url('/imgs/pdoce.jpeg');"></div>
+                            <div class="card__body"><h3>Pizzas Doce</h3><div class="card__meta"><span>⭐ 4,8</span></div></div>
+                        </article>
+                        <article class="card card">
+                            <div class="card__image" style="background-image:url('/imgs/panuzzo.jpeg');"></div>
+                            <div class="card__body"><h3>Panuzzo</h3><div class="card__meta"><span>⭐ 4,4</span></div></div>
+                        </article>
+                        <article class="card card">
+                            <div class="card__image" style="background-image:url('/imgs/shared%20image%20(6).jpeg');"></div>
+                            <div class="card__body"><h3>Bebidas</h3><p class="card__category">Drinks</p><div class="card__meta"><span>⭐ 4,7</span></div></div>
+                        </article>
+                    </div>
+                </div>
+                <button class="carousel__control carousel__control--next" aria-label="Próximo">›</button>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <section class="section" id="eventos">
+        <div class="container">
+            <div class="section__header"><h2>Eventos</h2><a href="#" class="section__link">Ver histórico</a></div>
+            <div class="carousel">
+                <button class="carousel__control carousel__control--prev" aria-label="Anterior">‹</button>
+                <div class="carousel__viewport">
+                    <div class="carousel__track">
+                        <article class="card card"><div class="card__image" style="background-image:url('/imgs/reserva_evento.jpeg');"></div><div class="card__body"><h3>Reserva</h3><p class="card__category">Reserva no nosso espaço</p></div></article>
+                        <article class="card card"><div class="card__image" style="background-image:url('/imgs/pizza_na_sua_casa_evento.jpeg');"></div><div class="card__body"><h3>Pizza na sua casa</h3><p class="card__category">Vamos até a sua casa</p></div></article>
+                        <article class="card card"><div class="card__image" style="background-image:url('/imgs/festivais_evento.jpeg');"></div><div class="card__body"><h3>Festivais</h3><p class="card__category">Festivais gastronômicos</p></div></article>
+                        <article class="card card"><div class="card__image" style="background-image:url('/imgs/reserva_evento.jpeg');"></div><div class="card__body"><h3>Reserva</h3><p class="card__category">Reserva no nosso espaço</p></div></article>
+                    </div>
+                </div>
+                <button class="carousel__control carousel__control--next" aria-label="Próximo">›</button>
+            </div>
+            <div class="section__cta"><button class="btn btn--outline">Ver mais recomendações</button></div>
+        </div>
+    </section>
+</main>

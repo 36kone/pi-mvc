@@ -2,12 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaMvc.Data;
 using PizzaMvc.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PizzaMvc.Controllers;
 
 public class PizzaController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly IWebHostEnvironment _env;
 
     public PizzaController(AppDbContext context)
     {

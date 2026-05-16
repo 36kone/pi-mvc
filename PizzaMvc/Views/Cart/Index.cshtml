@@ -1,0 +1,56 @@
+@{
+    ViewBag.Title = "Carrinho";
+    Layout = "_Layout";
+}
+
+<main id="cart-page">
+    <section class="cart">
+        <div class="container cart__container">
+            <header class="cart__header">
+                <h1>Seu carrinho</h1>
+                <p class="cart__subtitle">Revise seus itens antes de finalizar o pedido.</p>
+            </header>
+
+            <div class="cart-layout">
+                <div class="cart-items">
+                    <div id="cart-empty" class="cart-empty">
+                        <div class="cart-empty__icon">🛒</div>
+                        <h2>Seu carrinho está vazio</h2>
+                        <p>Adicione sabores deliciosos e eles aparecerão aqui.</p>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn--ghost cart-empty__btn">
+                            Explorar cardápio
+                        </a>
+                    </div>
+
+                    <div id="cart-items"></div>
+                </div>
+
+                <aside class="cart-summary">
+                    <h2>Resumo do pedido</h2>
+
+                    <div class="cart-summary__row">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">R$ 0,00</span>
+                    </div>
+                    <div class="cart-summary__row">
+                        <span>Taxa de serviço</span>
+                        <span id="cart-fee">R$ 0,00</span>
+                    </div>
+                    <div class="cart-summary__row cart-summary__row--total">
+                        <span>Total</span>
+                        <span id="cart-total">R$ 0,00</span>
+                    </div>
+
+                    <button type="button" class="btn btn--primary btn--full cart-summary__btn"
+                            onclick="location.href='@Url.Action("Status", "Pedido")'">
+                        Finalizar pedido
+                    </button>
+
+                    <button type="button" class="cart-summary__clear">
+                        Limpar carrinho
+                    </button>
+                </aside>
+            </div>
+        </div>
+    </section>
+</main>
