@@ -200,11 +200,3 @@ Como este é um projeto acadêmico simplificado, as seguintes funcionalidades po
 ## 📄 Licença
 
 Este projeto é desenvolvido para fins acadêmicos na Faculdade de Tecnologia de Atibaia.
-
-## 📞 Contato
-
-Para dúvidas ou sugestões relacionadas ao projeto acadêmico, entre em contato através dos emails institucionais da Fatec informados acima.
-
----
-
-<p align="center">Desenvolvido com ❤️ pela turma de Engenharia de Software - Fatec Atibaia</p>
