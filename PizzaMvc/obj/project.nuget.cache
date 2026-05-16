@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "dgSpecHash": "y5+kbgnDR8w=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\PizzaMvc.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.EntityFrameworkCore (>= 9.0.5)' for 'net10.0'.",
+      "projectPath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\PizzaMvc.csproj",
+      "filePath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\PizzaMvc.csproj",
+      "libraryId": "Microsoft.EntityFrameworkCore",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'MySql.Data (>= 9.6.0)' for 'net10.0'.",
+      "projectPath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\PizzaMvc.csproj",
+      "filePath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\PizzaMvc.csproj",
+      "libraryId": "MySql.Data",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Pomelo.EntityFrameworkCore.MySql (>= 9.0.0)' for 'net10.0'.",
+      "projectPath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\PizzaMvc.csproj",
+      "filePath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\PizzaMvc.csproj",
+      "libraryId": "Pomelo.EntityFrameworkCore.MySql",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

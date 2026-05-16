@@ -10,7 +10,7 @@ public class Pagamento
     public string FormaPagamento { get; set; }
     public decimal Valor { get; set; }
     public DateTime DataPagamento { get; set; } = DateTime.Now;
-    public string Status { get; set; } = "Pago";
+    public string Status { get; set; } = "Pendente";
 
-    public Pedido Pedido { get; set; }
+    public required Pedido Pedido { get; set; }
 }

@@ -7,10 +7,12 @@ public class ItemPedido
 {
     public int Id { get; set; }
     public int PedidoId { get; set; }
-    public int PizzaId { get; set; }
+    public int? PizzaId { get; set; }
+    public int? BebidaId { get; set; }
     public int Quantidade { get; set; }
     public decimal PrecoUnitario { get; set; }
 
-    public Pedido Pedido { get; set; }
-    public Pizza Pizza { get; set; }
+    public Pedido ? Pedido { get; set; }
+    public Pizza ? Pizza { get; set; }
+    public Bebida ? Bebida { get; set; }
 }
