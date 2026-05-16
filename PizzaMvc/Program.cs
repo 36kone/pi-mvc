@@ -20,6 +20,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await EnsureColumnExistsAsync(db, tableName: "pizzas", columnName: "Image", columnDefinition: "VARCHAR(255) NULL");
     await EnsureColumnExistsAsync(db, tableName: "bebidas", columnName: "Image", columnDefinition: "VARCHAR(255) NULL");
+    await EnsureColumnExistsAsync(db, tableName: "eventos", columnName: "Image", columnDefinition: "VARCHAR(255) NULL");
 }
 
 // Configure the HTTP request pipeline.

@@ -10,4 +10,5 @@ public class Evento
     public string? Descricao { get; set; }
     public DateTime DataEvento { get; set; }
     public string? Local { get; set; }
+    public string? Image { get; set; }
 }

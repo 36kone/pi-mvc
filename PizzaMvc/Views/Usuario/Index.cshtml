@@ -42,6 +42,7 @@
                         <td>@item.DataCriacao.ToString("dd/MM/yyyy HH:mm")</td>
                         <td>
                             <div class="data-table__actions">
+                                <button type="button" class="btn btn--sm btn--outline js-view-entity" data-entity="usuario" data-id="@item.Id" data-url="@Url.Action("GetById", "Usuario", new { id = item.Id })">Visualizar</button>
                                 <a class="btn btn--sm btn--warning" href="@Url.Action("Edit", "Usuario", new { id = item.Id })">Editar</a>
                                 <form action="@Url.Action("DeleteConfirmed", "Usuario", new { id = item.Id })" method="post">
                                     <input type="hidden" name="_method" value="DELETE">

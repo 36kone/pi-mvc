@@ -49,6 +49,7 @@
                         <td>@item.Categoria</td>
                         <td>
                             <div class="data-table__actions">
+                                <button type="button" class="btn btn--sm btn--outline js-view-entity" data-entity="pizza" data-id="@item.Id" data-url="@Url.Action("GetById", "Pizza", new { id = item.Id })">Visualizar</button>
                                 <a class="btn btn--sm btn--warning" href="@Url.Action("Edit", "Pizza", new { id = item.Id })">Editar</a>
                                 <form action="@Url.Action("DeleteConfirmed", "Pizza", new { id = item.Id })" method="post">
                                     <input type="hidden" name="_method" value="DELETE">

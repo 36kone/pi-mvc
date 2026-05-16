@@ -25,6 +25,27 @@ namespace PizzaMvc.Controllers
             return View("Index", await _context.Bebidas.ToListAsync());
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var bebida = await _context.Bebidas
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (bebida == null) return NotFound();
+
+            return Json(new
+            {
+                id = bebida.Id,
+                nome = bebida.Nome,
+                sabor = bebida.Sabor,
+                descricao = bebida.Descricao,
+                preco = bebida.Preco,
+                categoria = bebida.Categoria,
+                image = bebida.Image
+            });
+        }
+
         // GET: Bebida/Details/5
         public async Task<IActionResult> Details(int? id)
         {

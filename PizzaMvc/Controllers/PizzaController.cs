@@ -24,6 +24,27 @@ public class PizzaController : Controller
         return View(await _context.Pizzas.ToListAsync());
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var pizza = await _context.Pizzas
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (pizza == null) return NotFound();
+
+        return Json(new
+        {
+            id = pizza.Id,
+            nome = pizza.Nome,
+            sabor = pizza.Sabor,
+            descricao = pizza.Descricao,
+            preco = pizza.Preco,
+            categoria = pizza.Categoria,
+            image = pizza.Image
+        });
+    }
+
     public IActionResult Create()
     {
         return View("CriarPizza", new Pizza());

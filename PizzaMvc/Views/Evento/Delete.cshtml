@@ -1,0 +1,26 @@
+@model PizzaMvc.Models.Evento
+@{
+    ViewBag.Title = "Excluir Evento";
+}
+
+<section class="section">
+    <div class="section__header">
+        <h2>Excluir Evento</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Evento")">Ver Eventos</a>
+        </div>
+    </div>
+
+    <div class="surface">
+        <p>Confirma exclusão de <strong>@Model.Nome</strong>?</p>
+
+        <div class="actions-bar">
+            <form action="@Url.Action("Delete", "Evento", new { id = Model.Id })" method="post">
+                @Html.AntiForgeryToken()
+                <button class="btn btn--danger" onclick="return confirm('Confirma exclusão?')">Excluir</button>
+            </form>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Evento")">Cancelar</a>
+        </div>
+    </div>
+</section>

@@ -4,4 +4,6 @@ wwwroot\css\navbar.css
 wwwroot\css\register.css
 wwwroot\css\status_pedido.css
 wwwroot\css\styles.css
+wwwroot\images\MENDE_LOGO.jpeg_page-0001.jpg
 wwwroot\js\main.js
+wwwroot\js\navbar.js

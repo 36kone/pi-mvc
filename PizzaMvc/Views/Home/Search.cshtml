@@ -1,0 +1,99 @@
+@model PizzaMvc.Controllers.HomeSearchViewModel
+
+@{
+    ViewBag.Title = "Busca";
+    Layout = "_Layout";
+}
+
+<main>
+    <section class="section">
+        <div class="container">
+            <div class="section__header">
+                <h2>Resultados</h2>
+                <a class="btn btn--outline" href="@Url.Action("Index", "Home")">Voltar</a>
+            </div>
+
+            <div class="surface" style="padding:16px; margin-bottom:16px;">
+                <strong>Busca:</strong> @Model.Query
+            </div>
+
+            <div class="surface" style="padding:16px; margin-bottom:24px;">
+                <form class="search-box" method="get" action="@Url.Action("Search", "Home")">
+                    <div class="search-box__field">
+                        <span class="search-box__icon">🔍</span>
+                        <input type="text" name="q" value="@Model.Query" placeholder="Buscar por nome..." />
+                    </div>
+                    <button type="submit" class="btn btn--secondary">Buscar</button>
+                </form>
+            </div>
+
+            @{
+                var results = new List<(string Tipo, string Nome, string Resumo, string Entity, string Url)>();
+
+                foreach (var pizza in Model.Pizzas)
+                {
+                    var resumo = string.Join(" • ", new[] { pizza.Categoria, pizza.Preco.ToString("C") }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                    results.Add(("Pizza", pizza.Nome ?? string.Empty, resumo, "pizza", Url.Action("GetById", "Pizza", new { id = pizza.Id }) ?? string.Empty));
+                }
+
+                foreach (var bebida in Model.Bebidas)
+                {
+                    var resumo = string.Join(" • ", new[] { bebida.Categoria, bebida.Preco.ToString("C") }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                    results.Add(("Bebida", bebida.Nome ?? string.Empty, resumo, "bebida", Url.Action("GetById", "Bebida", new { id = bebida.Id }) ?? string.Empty));
+                }
+
+                foreach (var evento in Model.Eventos)
+                {
+                    var dataTexto = evento.DataEvento == default ? string.Empty : evento.DataEvento.ToString("dd/MM/yyyy");
+                    var resumo = string.Join(" • ", new[] { dataTexto, evento.Local }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                    results.Add(("Evento", evento.Nome ?? string.Empty, resumo, "evento", Url.Action("GetById", "Evento", new { id = evento.Id }) ?? string.Empty));
+                }
+            }
+
+            <div class="surface" style="padding:16px;">
+                <div class="section__header" style="margin-bottom:12px;">
+                    <h2>Resultados encontrados</h2>
+                </div>
+
+                @if (results.Count == 0)
+                {
+                    <div class="empty-state">
+                        <h3>Nenhum resultado encontrado</h3>
+                        <p>Tente outra palavra-chave.</p>
+                    </div>
+                }
+                else
+                {
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Visualizar</th>
+                                <th>Tipo</th>
+                                <th>Nome</th>
+                                <th>Resumo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in results)
+                            {
+                                <tr>
+                                    <td>
+                                        <button type="button"
+                                                class="btn btn--secondary btn--sm js-view-entity"
+                                                data-entity="@row.Entity"
+                                                data-url="@row.Url">
+                                            Visualizar
+                                        </button>
+                                    </td>
+                                    <td>@row.Tipo</td>
+                                    <td>@row.Nome</td>
+                                    <td>@row.Resumo</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </section>
+</main>

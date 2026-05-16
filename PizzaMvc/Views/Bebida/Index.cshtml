@@ -49,6 +49,7 @@
                         <td>@item.Categoria</td>
                         <td>
                             <div class="data-table__actions">
+                                <button type="button" class="btn btn--sm btn--outline js-view-entity" data-entity="bebida" data-id="@item.Id" data-url="@Url.Action("GetById", "Bebida", new { id = item.Id })">Visualizar</button>
                                 <a class="btn btn--sm btn--warning" href="@Url.Action("Edit", "Bebida", new { id = item.Id })">Editar</a>
                                 <form action="@Url.Action("Delete", "Bebida", new { id = item.Id })" method="post">
                                     @Html.AntiForgeryToken()

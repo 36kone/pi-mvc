@@ -19,6 +19,25 @@ public class UsuarioController : Controller
         return View(await _context.Usuarios.ToListAsync());
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var usuario = await _context.Usuarios
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (usuario == null) return NotFound();
+
+        return Json(new
+        {
+            id = usuario.Id,
+            nome = usuario.Nome,
+            email = usuario.Email,
+            tipo = usuario.Tipo,
+            dataCriacao = usuario.DataCriacao
+        });
+    }
+
     public IActionResult Create()
     {
         return View("CriarUsuario", new Usuario());
