@@ -1,26 +1,62 @@
 @model PizzaMvc.Models.Cliente
 @{
-    ViewBag.Title = "Novo Cliente";
+    var isCheckout = (ViewBag.Checkout as bool?) == true;
+    ViewBag.Title = isCheckout ? "Dados do cliente" : "Novo Cliente";
+    var formAction = isCheckout
+        ? (ViewBag.FormAction as string ?? Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder")
+        : (Url.Action("Create", "Cliente") ?? "/Cliente/Create");
+    var cancelUrl = isCheckout
+        ? (ViewBag.CancelUrl as string ?? Url.Action("Index", "Cart") ?? "/Cart")
+        : (Url.Action("Index", "Cliente") ?? "/Cliente");
+    var submitText = isCheckout ? "Finalizar pedido" : "Salvar";
+    var errorText = (ViewBag.Error as string) ?? string.Empty;
 }
 
-<h2>Novo Cliente</h2>
-<form method="post" action="/Cliente/Create">
-    <div class="mb-3">
-        <label>Nome</label>
-        <input name="Nome" class="form-control" value="@Model.Nome" required />
-    </div>
-    <div class="mb-3">
-        <label>Telefone</label>
-        <input name="Telefone" class="form-control" value="@Model.Telefone" />
-    </div>
-    <div class="mb-3">
-        <label>Email</label>
-        <input name="Email" type="email" class="form-control" value="@Model.Email" />
-    </div>
-    <div class="mb-3">
-        <label>CPF/CNPJ</label>
-        <input name="CpfCnpj" class="form-control" value="@Model.CpfCnpj" />
-    </div>
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a href="/Cliente" class="btn btn-secondary">Voltar</a>
-</form>
+<main @(isCheckout ? "id=\"checkout-page\"" : "")>
+    <section class="section">
+        <div class="surface" style="max-width:720px;margin:0 auto;">
+            <div class="section__header" style="margin-bottom:12px;">
+                <h2>@ViewBag.Title</h2>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(errorText))
+            {
+                <div class="surface" style="border:1px solid #fecaca;background:#fff1f2;margin-bottom:12px;">
+                    <strong>@errorText</strong>
+                </div>
+            }
+
+            <form method="post" action="@formAction" class="form" id="@(isCheckout ? "checkout-form" : "")">
+                <div class="form__grid">
+                    <div class="field">
+                        <label for="cliente-nome">Nome</label>
+                        <input id="cliente-nome" name="Nome" class="input" value="@Model.Nome" required />
+                    </div>
+                    <div class="field">
+                        <label for="cliente-telefone">Telefone</label>
+                        <input id="cliente-telefone" name="Telefone" class="input" value="@Model.Telefone" />
+                    </div>
+                    <div class="field">
+                        <label for="cliente-email">Email</label>
+                        <input id="cliente-email" name="Email" type="email" class="input" value="@Model.Email" />
+                    </div>
+                    <div class="field">
+                        <label for="cliente-cpf">CPF/CNPJ</label>
+                        <input id="cliente-cpf" name="CpfCnpj" class="input" value="@Model.CpfCnpj" />
+                    </div>
+                </div>
+
+                @if (isCheckout)
+                {
+                    <input type="hidden" name="formaPagamento" id="checkout-formaPagamento" value="" />
+                    <input type="hidden" name="cartJson" id="checkout-cartJson" value="" />
+                }
+
+                <div class="actions-bar">
+                    <button type="submit" class="btn btn--primary">@submitText</button>
+                    <a href="@cancelUrl" class="btn btn--outline">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>

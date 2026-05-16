@@ -28,25 +28,28 @@
             </div>
 
             @{
-                var results = new List<(string Tipo, string Nome, string Resumo, string Entity, string Url)>();
+                var results = new List<(string Tipo, int Id, string Nome, string Resumo, decimal Preco, string Image, string Entity, string Url)>();
 
                 foreach (var pizza in Model.Pizzas)
                 {
-                    var resumo = string.Join(" • ", new[] { pizza.Categoria, pizza.Preco.ToString("C") }.Where(s => !string.IsNullOrWhiteSpace(s)));
-                    results.Add(("Pizza", pizza.Nome ?? string.Empty, resumo, "pizza", Url.Action("GetById", "Pizza", new { id = pizza.Id }) ?? string.Empty));
+                    var resumo = string.Join(" • ", new[] { pizza.Categoria, pizza.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                    var image = !string.IsNullOrWhiteSpace(pizza.Image) ? pizza.Image : "/imgs/pizza%20panceta.jpeg";
+                    results.Add(("Pizza", pizza.Id, pizza.Nome ?? string.Empty, resumo, pizza.Preco, image, "pizza", Url.Action("GetById", "Pizza", new { id = pizza.Id }) ?? string.Empty));
                 }
 
                 foreach (var bebida in Model.Bebidas)
                 {
-                    var resumo = string.Join(" • ", new[] { bebida.Categoria, bebida.Preco.ToString("C") }.Where(s => !string.IsNullOrWhiteSpace(s)));
-                    results.Add(("Bebida", bebida.Nome ?? string.Empty, resumo, "bebida", Url.Action("GetById", "Bebida", new { id = bebida.Id }) ?? string.Empty));
+                    var resumo = string.Join(" • ", new[] { bebida.Categoria, bebida.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                    var image = !string.IsNullOrWhiteSpace(bebida.Image) ? bebida.Image : "/imgs/shared%20image%20(6).jpeg";
+                    results.Add(("Bebida", bebida.Id, bebida.Nome ?? string.Empty, resumo, bebida.Preco, image, "bebida", Url.Action("GetById", "Bebida", new { id = bebida.Id }) ?? string.Empty));
                 }
 
                 foreach (var evento in Model.Eventos)
                 {
                     var dataTexto = evento.DataEvento == default ? string.Empty : evento.DataEvento.ToString("dd/MM/yyyy");
                     var resumo = string.Join(" • ", new[] { dataTexto, evento.Local }.Where(s => !string.IsNullOrWhiteSpace(s)));
-                    results.Add(("Evento", evento.Nome ?? string.Empty, resumo, "evento", Url.Action("GetById", "Evento", new { id = evento.Id }) ?? string.Empty));
+                    var image = !string.IsNullOrWhiteSpace(evento.Image) ? evento.Image : "/imgs/reserva_evento.jpeg";
+                    results.Add(("Evento", evento.Id, evento.Nome ?? string.Empty, resumo, 0m, image, "evento", Url.Action("GetById", "Evento", new { id = evento.Id }) ?? string.Empty));
                 }
             }
 
@@ -67,6 +70,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>Carrinho</th>
                                 <th>Visualizar</th>
                                 <th>Tipo</th>
                                 <th>Nome</th>
@@ -76,7 +80,22 @@
                         <tbody>
                             @foreach (var row in results)
                             {
+                                var canAddToCart = row.Entity == "pizza" || row.Entity == "bebida";
                                 <tr>
+                                    <td>
+                                        @if (canAddToCart)
+                                        {
+                                            <button type="button"
+                                                    class="btn btn--ghost btn--sm js-add-to-cart"
+                                                    aria-label="Adicionar ao carrinho"
+                                                    data-entity="@row.Entity"
+                                                    data-id="@row.Id"
+                                                    data-name="@row.Nome"
+                                                    data-summary="@row.Resumo"
+                                                    data-price="@row.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                                    data-image="@row.Image">🛒 +</button>
+                                        }
+                                    </td>
                                     <td>
                                         <button type="button"
                                                 class="btn btn--secondary btn--sm js-view-entity"

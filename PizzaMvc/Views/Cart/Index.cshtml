@@ -41,12 +41,24 @@
                         <span id="cart-total">R$ 0,00</span>
                     </div>
 
-                    <button type="button" class="btn btn--primary btn--full cart-summary__btn"
-                            onclick="location.href='@Url.Action("Status", "Pedido")'">
+                    <div class="spacer-16"></div>
+                    <div class="field">
+                        <label for="cart-payment">Forma de pagamento</label>
+                        <select id="cart-payment" class="select">
+                            <option value="">Selecione...</option>
+                            <option value="Pix">Pix</option>
+                            <option value="Cartão">Cartão</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                        </select>
+                    </div>
+
+                    <button type="button"
+                            class="btn btn--primary btn--full cart-summary__btn js-go-checkout"
+                            data-checkout-url="@Url.Action("Checkout", "Pedido")">
                         Finalizar pedido
                     </button>
 
-                    <button type="button" class="cart-summary__clear">
+                    <button type="button" class="cart-summary__clear js-cart-clear">
                         Limpar carrinho
                     </button>
                 </aside>

@@ -44,13 +44,25 @@
                         var title = !string.IsNullOrWhiteSpace(pizza.Nome) ? pizza.Nome : (!string.IsNullOrWhiteSpace(pizza.Sabor) ? pizza.Sabor : "Pizza");
                         var category = !string.IsNullOrWhiteSpace(pizza.Categoria) ? pizza.Categoria : "Pizza";
                         var image = !string.IsNullOrWhiteSpace(pizza.Image) ? pizza.Image : "/imgs/pizza%20panceta.jpeg";
+                        var summary = string.Join(" • ", new[] { category, pizza.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
 
                         <article class="card card--large js-view-entity" role="button" tabindex="0" data-entity="pizza" data-id="@pizza.Id" data-url="@Url.Action("GetById", "Pizza", new { id = pizza.Id })">
                             <div class="card__image" style="background-image:url('@image');"></div>
                             <div class="card__body">
                                 <h3>@title</h3>
                                 <p class="card__category">@category</p>
-                                <div class="card__meta"><span>R$ @pizza.Preco.ToString("0.00")</span></div>
+                                <div class="card__meta">
+                                    <span>R$ @pizza.Preco.ToString("0.00")</span>
+                                    <button type="button"
+                                            class="btn btn--ghost btn--sm js-add-to-cart"
+                                            aria-label="Adicionar ao carrinho"
+                                            data-entity="pizza"
+                                            data-id="@pizza.Id"
+                                            data-name="@title"
+                                            data-summary="@summary"
+                                            data-price="@pizza.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                            data-image="@image">🛒 +</button>
+                                </div>
                             </div>
                         </article>
                     }
@@ -90,13 +102,25 @@
                                 var title = !string.IsNullOrWhiteSpace(pizza.Nome) ? pizza.Nome : (!string.IsNullOrWhiteSpace(pizza.Sabor) ? pizza.Sabor : "Pizza");
                                 var category = !string.IsNullOrWhiteSpace(pizza.Categoria) ? pizza.Categoria : "Pizza";
                                 var image = !string.IsNullOrWhiteSpace(pizza.Image) ? pizza.Image : "/imgs/pizza%20panceta.jpeg";
+                                var summary = string.Join(" • ", new[] { category, pizza.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
 
                                 <article class="card card js-view-entity" role="button" tabindex="0" data-entity="pizza" data-id="@pizza.Id" data-url="@Url.Action("GetById", "Pizza", new { id = pizza.Id })">
                                     <div class="card__image" style="background-image:url('@image');"></div>
                                     <div class="card__body">
                                         <h3>@title</h3>
                                         <p class="card__category">@category</p>
-                                        <div class="card__meta"><span>R$ @pizza.Preco.ToString("0.00")</span></div>
+                                        <div class="card__meta">
+                                            <span>R$ @pizza.Preco.ToString("0.00")</span>
+                                            <button type="button"
+                                                    class="btn btn--ghost btn--sm js-add-to-cart"
+                                                    aria-label="Adicionar ao carrinho"
+                                                    data-entity="pizza"
+                                                    data-id="@pizza.Id"
+                                                    data-name="@title"
+                                                    data-summary="@summary"
+                                                    data-price="@pizza.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                                    data-image="@image">🛒 +</button>
+                                        </div>
                                     </div>
                                 </article>
                             }
@@ -133,13 +157,25 @@
                                 var title = !string.IsNullOrWhiteSpace(bebida.Nome) ? bebida.Nome : (!string.IsNullOrWhiteSpace(bebida.Sabor) ? bebida.Sabor : "Bebida");
                                 var category = !string.IsNullOrWhiteSpace(bebida.Categoria) ? bebida.Categoria : "Bebidas";
                                 var image = !string.IsNullOrWhiteSpace(bebida.Image) ? bebida.Image : "/imgs/shared%20image%20(6).jpeg";
+                                var summary = string.Join(" • ", new[] { category, bebida.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
 
                                 <article class="card card js-view-entity" role="button" tabindex="0" data-entity="bebida" data-id="@bebida.Id" data-url="@Url.Action("GetById", "Bebida", new { id = bebida.Id })">
                                     <div class="card__image" style="background-image:url('@image');"></div>
                                     <div class="card__body">
                                         <h3>@title</h3>
                                         <p class="card__category">@category</p>
-                                        <div class="card__meta"><span>R$ @bebida.Preco.ToString("0.00")</span></div>
+                                        <div class="card__meta">
+                                            <span>R$ @bebida.Preco.ToString("0.00")</span>
+                                            <button type="button"
+                                                    class="btn btn--ghost btn--sm js-add-to-cart"
+                                                    aria-label="Adicionar ao carrinho"
+                                                    data-entity="bebida"
+                                                    data-id="@bebida.Id"
+                                                    data-name="@title"
+                                                    data-summary="@summary"
+                                                    data-price="@bebida.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                                    data-image="@image">🛒 +</button>
+                                        </div>
                                     </div>
                                 </article>
                             }

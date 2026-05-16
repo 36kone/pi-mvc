@@ -359,7 +359,9 @@ body {
     font-size: 11px;
     color: #4b5563;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
     gap: 8px;
 }
 

@@ -16,12 +16,8 @@ O sistema tem como objetivo digitalizar os processos operacionais, permitindo o 
 Este projeto foi desenvolvido como parte dos requisitos acadêmicos da **Faculdade de Tecnologia de Atibaia (Fatec Atibaia)**.
 
 **Integrantes do Grupo:**
-- Devair Candido Vieira (Líder) - devair.vieira@fatec.sp.gov.br
 - Caio Herrera Correia - caio.correia@fatec.sp.gov.br
-- Bianca Cardoso Lobo dos Santos - bianca.santos111@fatec.sp.gov.br
 - Isabella da Silva Carvalho - isabella.carvalho2@fatec.sp.gov.br
-- Matheus Pereira Mendelini - matheus.mendelini@fatec.sp.gov.br
-- Pedro dos Santos Camargo - pedro.camargo12@fatec.sp.gov.br
 
 ## 🛠️ Tecnologias Utilizadas
 

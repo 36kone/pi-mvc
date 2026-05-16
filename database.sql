@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS eventos (
     Nome VARCHAR(100) NOT NULL,
     Descricao TEXT,
     DataEvento DATETIME NOT NULL,
-    Local VARCHAR(100)
+    Local VARCHAR(100),
+    Image VARCHAR(255)
 );
 
 -- Tabela de pedidos
