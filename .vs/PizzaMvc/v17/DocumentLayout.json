@@ -1,12 +1,54 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8A0B7C4D-3E2F-4A1B-9C3D-5F6A7B8C9D0E}|PizzaMvc\\PizzaMvc.csproj|c:\\users\\kone\\projects\\katia\\pi-mvc\\pizzamvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8A0B7C4D-3E2F-4A1B-9C3D-5F6A7B8C9D0E}|PizzaMvc\\PizzaMvc.csproj|solutionrelative:pizzamvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8A0B7C4D-3E2F-4A1B-9C3D-5F6A7B8C9D0E}|PizzaMvc\\PizzaMvc.csproj|c:\\users\\kone\\projects\\katia\\pi-mvc\\pizzamvc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8A0B7C4D-3E2F-4A1B-9C3D-5F6A7B8C9D0E}|PizzaMvc\\PizzaMvc.csproj|solutionrelative:pizzamvc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\Program.cs",
+              "RelativeDocumentMoniker": "PizzaMvc\\Program.cs",
+              "ToolTip": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\Program.cs",
+              "RelativeToolTip": "PizzaMvc\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-16T16:37:15.84Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "PizzaMvc\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "PizzaMvc\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-16T16:17:00.524Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

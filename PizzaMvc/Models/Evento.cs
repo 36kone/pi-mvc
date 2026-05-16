@@ -6,8 +6,8 @@ namespace PizzaMvc.Models;
 public class Evento
 {
     public int Id { get; set; }
-    public string Nome { get; set; }
-    public string Descricao { get; set; }
+    public string? Nome { get; set; }
+    public string? Descricao { get; set; }
     public DateTime DataEvento { get; set; }
-    public string Local { get; set; }
+    public string? Local { get; set; }
 }

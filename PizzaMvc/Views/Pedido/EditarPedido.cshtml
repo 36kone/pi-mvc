@@ -11,17 +11,17 @@
         <select name="ClienteId" class="form-control">
             @foreach (var c in ViewBag.Clientes)
             {
-                <option value="@c.Id" @(Model.ClienteId == c.Id ? "selected" : "")>@c.Nome</option>
+                <option value="@c.Id" selected="@(Model.ClienteId == c.Id)">@c.Nome</option>
             }
         </select>
     </div>
     <div class="mb-3">
         <label>Status</label>
         <select name="Status" class="form-control">
-            <option value="Feito" @(Model.Status == "Feito" ? "selected" : "")>Feito</option>
-            <option value="Em Produção" @(Model.Status == "Em Produção" ? "selected" : "")>Em Produção</option>
-            <option value="Pronto" @(Model.Status == "Pronto" ? "selected" : "")>Pronto</option>
-            <option value="Entregue" @(Model.Status == "Entregue" ? "selected" : "")>Entregue</option>
+            <option value="Feito" selected="@(Model.Status == "Feito")">Feito</option>
+            <option value="Em Produção" selected="@(Model.Status == "Em Produção")">Em Produção</option>
+            <option value="Pronto" selected="@(Model.Status == "Pronto")">Pronto</option>
+            <option value="Entregue" selected="@(Model.Status == "Entregue")">Entregue</option>
         </select>
     </div>
     <button type="submit" class="btn btn-success">Salvar</button>

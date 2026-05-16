@@ -1,0 +1,7 @@
+wwwroot\css\cart.css
+wwwroot\css\login.css
+wwwroot\css\navbar.css
+wwwroot\css\register.css
+wwwroot\css\status_pedido.css
+wwwroot\css\styles.css
+wwwroot\js\main.js

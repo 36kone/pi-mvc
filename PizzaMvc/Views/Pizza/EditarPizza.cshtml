@@ -25,9 +25,9 @@
     <div class="mb-3">
         <label>Categoria</label>
         <select name="Categoria" class="form-control">
-            <option value="Tradicional" @(Model.Categoria == "Tradicional" ? "selected" : "")>Tradicional</option>
-            <option value="Especial" @(Model.Categoria == "Especial" ? "selected" : "")>Especial</option>
-            <option value="Doce" @(Model.Categoria == "Doce" ? "selected" : "")>Doce</option>
+            <option value="Tradicional" selected="@(Model.Categoria == "Tradicional")">Tradicional</option>
+            <option value="Especial" selected="@(Model.Categoria == "Especial")">Especial</option>
+            <option value="Doce" selected="@(Model.Categoria == "Doce")">Doce</option>
         </select>
     </div>
     <button type="submit" class="btn btn-success">Salvar</button>

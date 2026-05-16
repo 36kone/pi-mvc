@@ -21,8 +21,8 @@
     <div class="mb-3">
         <label>Tipo</label>
         <select name="Tipo" class="form-control">
-            <option value="Admin" @(Model.Tipo == "Admin" ? "selected" : "")>Admin</option>
-            <option value="Usuario" @(Model.Tipo == "Usuario" ? "selected" : "")>Usuário</option>
+            <option value="Admin" selected="@(Model.Tipo == "Admin")">Admin</option>
+            <option value="Usuario" selected="@(Model.Tipo == "Usuario")">Usuário</option>
         </select>
     </div>
     <button type="submit" class="btn btn-success">Salvar</button>

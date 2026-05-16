@@ -11,7 +11,7 @@ public class Pedido
     public string Status { get; set; } = "Feito";
     public decimal Total { get; set; }
 
-    public Cliente Cliente { get; set; }
-    public ICollection<ItemPedido> Itens { get; set; }
-    public Pagamento Pagamento { get; set; }
+    public Cliente? Cliente { get; set; }
+    public ICollection<ItemPedido>? Itens { get; set; }
+    public Pagamento? Pagamento { get; set; }
 }
