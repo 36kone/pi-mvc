@@ -19334,6 +19334,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\Views\\Pedido\\MeusPedidos.cshtml",
+      "TargetPath": "Views\\Pedido\\MeusPedidos.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\kone\\projects\\katia\\pi-mvc\\PizzaMvc\\Views\\Cliente\\EditarCliente.cshtml",
       "TargetPath": "Views\\Cliente\\EditarCliente.cshtml",
       "FileKind": "mvc"

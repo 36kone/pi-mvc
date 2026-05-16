@@ -4,6 +4,7 @@ console.log('Main.js carregado');
 
 const CART_KEY = "pi_cart_v1";
 const PAYMENT_KEY = "pi_payment_method_v1";
+const CLIENT_KEY = "pi_cliente_v1";
 let cartPageInitialized = false;
 let checkoutPageInitialized = false;
 
@@ -154,6 +155,16 @@ function writePaymentMethod(value) {
 function clearPaymentMethod() {
   try {
     localStorage.removeItem(PAYMENT_KEY);
+  } catch { }
+}
+
+function normalizeDocumento(value) {
+  return String(value || "").replace(/\D+/g, "").trim();
+}
+
+function writeClient(client) {
+  try {
+    localStorage.setItem(CLIENT_KEY, JSON.stringify(client || null));
   } catch { }
 }
 
@@ -386,6 +397,24 @@ function initCheckoutPage() {
 
   if (form) {
     form.addEventListener("submit", () => {
+      const nomeEl = document.getElementById("cliente-nome");
+      const telefoneEl = document.getElementById("cliente-telefone");
+      const emailEl = document.getElementById("cliente-email");
+      const cpfEl = document.getElementById("cliente-cpf");
+
+      const cpfRaw = String(cpfEl?.value || "").trim();
+      const cpf = normalizeDocumento(cpfRaw);
+      if (cpf) {
+        writeClient({
+          nome: String(nomeEl?.value || "").trim(),
+          telefone: String(telefoneEl?.value || "").trim(),
+          email: String(emailEl?.value || "").trim(),
+          cpfCnpj: cpf,
+          cpfCnpjRaw: cpfRaw,
+          updatedAt: new Date().toISOString(),
+        });
+      }
+
       if (cartInput) cartInput.value = JSON.stringify(readCart().map((i) => ({
         entity: i.entity,
         id: i.id,

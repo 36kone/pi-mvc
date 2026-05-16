@@ -1,0 +1,163 @@
+@model IEnumerable<PizzaMvc.Models.Pedido>
+@{
+    ViewBag.Title = "Meus Pedidos";
+    Layout = "_Layout";
+
+    var documento = (ViewBag.Documento as string) ?? string.Empty;
+    var needsDocumento = (ViewBag.NeedsDocumento as bool?) == true;
+    var clientNotFound = (ViewBag.ClientNotFound as bool?) == true;
+    var invalidDocumento = (ViewBag.InvalidDocumento as bool?) == true;
+}
+
+<section class="section">
+    <div class="section__header">
+        <h2>Meus Pedidos</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Home")">Cardápio</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Cart")">Carrinho</a>
+        </div>
+    </div>
+
+    <div class="surface" style="max-width:720px;margin:0 auto;">
+        <div class="section__header" style="margin-bottom:12px;">
+            <h3>Buscar por CPF/CNPJ</h3>
+        </div>
+
+        <form method="get" action="@Url.Action("GetByCpfCnpj", "Pedido")" class="form" id="meus-pedidos-form">
+            <div class="form__grid">
+                <div class="field">
+                    <label for="meus-pedidos-documento">CPF/CNPJ</label>
+                    <input id="meus-pedidos-documento" name="cpfCnpj" class="input" value="@documento" required />
+                </div>
+            </div>
+            <div class="actions-bar">
+                <button type="submit" class="btn btn--primary">Ver pedidos</button>
+                <button type="button" class="btn btn--outline" id="meus-pedidos-trocar">Trocar cliente</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="spacer-16"></div>
+
+    @if (invalidDocumento)
+    {
+        <div class="surface empty-state">
+            <h3>Informe um CPF/CNPJ válido</h3>
+            <p>Digite apenas os números ou com pontuação, tanto faz.</p>
+        </div>
+    }
+    else if (clientNotFound)
+    {
+        <div class="surface empty-state">
+            <h3>Cliente não encontrado</h3>
+            <p>Confira o CPF/CNPJ e tente novamente.</p>
+        </div>
+    }
+    else if (needsDocumento)
+    {
+        <div class="surface empty-state">
+            <h3>Digite seu CPF/CNPJ para ver seus pedidos</h3>
+            <p>Se você já finalizou um pedido neste dispositivo, a tela preenche automaticamente.</p>
+        </div>
+    }
+    else if (Model?.Any() != true)
+    {
+        <div class="surface empty-state">
+            <h3>Você ainda não tem pedidos</h3>
+            <p>Quando você finalizar um pedido, ele vai aparecer aqui.</p>
+            <a href="@Url.Action("Index","Home")" class="btn btn--primary">Fazer um pedido</a>
+        </div>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Pagamento</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td><span class="chip">@item.Status</span></td>
+                        <td>@item.Total.ToString("C")</td>
+                        <td>@(item.Pagamento?.FormaPagamento ?? "N/A")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <script>
+        (() => {
+            const CLIENT_KEY = "pi_cliente_v1";
+
+            function normalizeDocumento(value) {
+                return String(value || "").replace(/\D+/g, "").trim();
+            }
+
+            function readClient() {
+                try {
+                    return JSON.parse(localStorage.getItem(CLIENT_KEY) || "null");
+                } catch {
+                    return null;
+                }
+            }
+
+            function writeClient(client) {
+                try {
+                    localStorage.setItem(CLIENT_KEY, JSON.stringify(client || null));
+                } catch { }
+            }
+
+            function clearClient() {
+                try {
+                    localStorage.removeItem(CLIENT_KEY);
+                } catch { }
+            }
+
+            const shouldClearClient = @((clientNotFound || invalidDocumento) ? "true" : "false");
+            if (shouldClearClient) clearClient();
+
+            const path = String(window.location.pathname || "").toLowerCase();
+            const isLanding = path.endsWith("/pedido/meuspedidos") || path.endsWith("/pedido/meuspedidos/");
+            if (isLanding) {
+                const client = readClient();
+                const stored = normalizeDocumento(client?.cpfCnpj || client?.cpfCnpjNormalized || client?.cpfCnpjRaw);
+                if (stored) {
+                    const url = "@Url.Action("GetByCpfCnpj", "Pedido")" + "?cpfCnpj=" + encodeURIComponent(stored);
+                    window.location.replace(url);
+                    return;
+                }
+            }
+
+            const form = document.getElementById("meus-pedidos-form");
+            const input = document.getElementById("meus-pedidos-documento");
+            if (form && input) {
+                form.addEventListener("submit", () => {
+                    const raw = String(input.value || "").trim();
+                    const doc = normalizeDocumento(raw);
+                    if (!doc) return;
+                    writeClient({ cpfCnpj: doc, cpfCnpjRaw: raw, updatedAt: new Date().toISOString() });
+                });
+            }
+
+            const trocar = document.getElementById("meus-pedidos-trocar");
+            if (trocar && input) {
+                trocar.addEventListener("click", () => {
+                    clearClient();
+                    input.value = "";
+                    input.focus();
+                    window.location.href = "@Url.Action("MeusPedidos", "Pedido")";
+                });
+            }
+        })();
+    </script>
+</section>

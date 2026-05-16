@@ -3,38 +3,72 @@
     ViewBag.Title = "Pedidos";
 }
 
-<h2>Pedidos</h2>
-<a href="/Pedido/Create" class="btn btn-primary mb-3">Novo Pedido</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Data</th>
-            <th>Status</th>
-            <th>Total</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@(item.Cliente?.Nome ?? "N/A")</td>
-                <td>@item.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    <span class="badge bg-@(item.Status == "Entregue" ? "success" : item.Status == "Pronto" ? "warning" : "secondary")">@item.Status</span>
-                </td>
-                <td>@item.Total.ToString("C")</td>
-                <td>
-                    <a href="/Pedido/Edit/@item.Id" class="btn btn-sm btn-warning">Editar</a>
-                    <form action="/Pedido/DeleteConfirmed/@item.Id" method="post" style="display:inline">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Confirma?')">Excluir</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<section class="section">
+    <div class="section__header">
+        <h2>Pedidos</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+        </div>
+    </div>
+
+    @if (Model?.Any() != true)
+    {
+        <div class="surface empty-state">
+            <h3>Nenhum pedido encontrado</h3>
+            <p>Quando existirem pedidos, eles aparecerão aqui.</p>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Voltar</a>
+        </div>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@(item.Cliente?.Nome ?? "N/A")</td>
+                        <td>@item.DataPedido.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td><span class="chip">@item.Status</span></td>
+                        <td>@item.Total.ToString("C")</td>
+                        <td>
+                            <div class="data-table__actions">
+                                <a class="btn btn--sm btn--warning" href="@Url.Action("Edit", "Pedido", new { id = item.Id })">Editar</a>
+                                <form action="@Url.Action("DeleteConfirmed", "Pedido", new { id = item.Id })" method="post">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="btn btn--sm btn--danger" onclick="return confirm('Confirma?')">Excluir</button>
+                                </form>
+                                @if (item.Status == "Pendente")
+                                {
+                                    <form action="@Url.Action("UpdateStatus", "Pedido")" method="post">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="status" value="Em Andamento" />
+                                        <button class="btn btn--sm btn--outline">Mudar para Em Andamento</button>
+                                    </form>
+                                }
+                                else if (item.Status == "Em Andamento")
+                                {
+                                    <form action="@Url.Action("UpdateStatus", "Pedido")" method="post">
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                        <input type="hidden" name="status" value="Concluido" />
+                                        <button class="btn btn--sm btn--primary">Mudar para Concluido</button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

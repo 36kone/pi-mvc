@@ -17,6 +17,7 @@ public class AdminController : Controller
     {
         ViewBag.TotalPedidos = await _context.Pedidos.CountAsync();
         ViewBag.PedidosPendentes = await _context.Pedidos.CountAsync(p => p.Status == "Pendente");
+        ViewBag.PedidosEmAndamento = await _context.Pedidos.CountAsync(p => p.Status == "Em Andamento");
         ViewBag.PedidosConcluidos = await _context.Pedidos.CountAsync(p => p.Status == "Concluido");
         return View();
     }

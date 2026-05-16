@@ -9,7 +9,8 @@ class Navbar {
                 { label: 'Em destaque', href: '/#destaque' },
                 { label: 'Cardápio', href: '/#cardapio' },
                 { label: 'Eventos', href: '/#eventos' },
-                { label: 'Ajuda', href: '/#ajuda' }
+                { label: 'Ajuda', href: '/#ajuda' },
+                { label: 'Meus Pedidos', href: '/Pedido/MeusPedidos' }
             ],
             cartUrl: options.cartUrl || '/Cart'
         };

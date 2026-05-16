@@ -10,6 +10,7 @@
             <a class="btn btn--outline" href="@Url.Action("Index", "Bebida")">Ver Bebidas</a>
             <a class="btn btn--outline" href="@Url.Action("Index", "Usuario")">Ver Usuários</a>
                 <a class="btn btn--outline" href="@Url.Action("Index", "Evento")">Ver Eventos</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Pedido")">Ver Pedidos</a>
         </div>
     </div>
 
@@ -27,6 +28,13 @@
             <div class="card__body">
                 <h3>Pedidos (Pendente)</h3>
                 <div class="card__category">@ViewBag.PedidosPendentes</div>
+            </div>
+        </div>
+
+        <div class="card card--static">
+            <div class="card__body">
+                <h3>Pedidos (Em Andamento)</h3>
+                <div class="card__category">@ViewBag.PedidosEmAndamento</div>
             </div>
         </div>
 

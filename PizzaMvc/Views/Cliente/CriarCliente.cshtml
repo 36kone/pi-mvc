@@ -42,7 +42,7 @@
                     </div>
                     <div class="field">
                         <label for="cliente-cpf">CPF/CNPJ</label>
-                        <input id="cliente-cpf" name="CpfCnpj" class="input" value="@Model.CpfCnpj" />
+                        <input id="cliente-cpf" name="CpfCnpj" class="input" value="@Model.CpfCnpj" @(isCheckout ? "required" : "") />
                     </div>
                 </div>
 

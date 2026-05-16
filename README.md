@@ -3,7 +3,6 @@
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-512bd4?style=flat&logo=.net)
 ![C#](https://img.shields.io/badge/C%23-239120?style=flat&logo=c-sharp)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap)
 
 ## 📋 Sobre o Projeto
 
@@ -21,9 +20,9 @@ Este projeto foi desenvolvido como parte dos requisitos acadêmicos da **Faculda
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Backend:** ASP.NET Core 10.0 / C#
-- **ORM:** Entity Framework Core 9.0 com Pomelo MySQL
-- **Frontend:** HTML5, CSS3, Bootstrap 5.3
+- **Backend:** ASP.NET Core 8.0 / C#
+- **ORM:** Entity Framework Core 8.0 com Pomelo MySQL
+- **Frontend:** Razor Views (MVC), HTML5, CSS3, JavaScript
 - **Banco de Dados:** MySQL
 - **Padrão de Arquitetura:** MVC (Model-View-Controller)
 
@@ -32,30 +31,49 @@ Este projeto foi desenvolvido como parte dos requisitos acadêmicos da **Faculda
 ```
 pi-mvc/
 ├── PizzaMvc/
-│   ├── Controllers/           # Controladores da aplicação
-│   │   ├── HomeController.cs
-│   │   ├── PizzaController.cs
+│   ├── Controllers/                 # Controladores da aplicação
+│   │   ├── AdminController.cs
+│   │   ├── BebidaController.cs
+│   │   ├── CartController.cs
 │   │   ├── ClienteController.cs
-│   │   └── PedidoController.cs
-│   ├── Models/                # Entidades do domínio
-│   │   ├── Pizza.cs
-│   │   ├── Cliente.cs
-│   │   ├── Pedido.cs
-│   │   ├── ItemPedido.cs
-│   │   └── Pagamento.cs
-│   ├── Data/                  # Contexto do banco de dados
+│   │   ├── EventoController.cs
+│   │   ├── HomeController.cs
+│   │   ├── PagamentoController.cs
+│   │   ├── PedidoController.cs
+│   │   ├── PizzaController.cs
+│   │   └── UsuarioController.cs
+│   ├── Data/                        # Contexto do banco de dados
 │   │   └── AppDbContext.cs
-│   ├── Views/                 # Interface do usuário (Views)
-│   │   ├── Shared/
-│   │   │   └── _Layout.cshtml
-│   │   ├── Home/
-│   │   ├── Pizza/
+│   ├── Models/                      # Entidades do domínio
+│   │   ├── Bebida.cs
+│   │   ├── Cliente.cs
+│   │   ├── Evento.cs
+│   │   ├── ItemPedido.cs
+│   │   ├── Pagamento.cs
+│   │   ├── Pedido.cs
+│   │   ├── Pizza.cs
+│   │   └── Usuario.cs
+│   ├── Views/                       # Interface do usuário (Views)
+│   │   ├── Admin/
+│   │   ├── Bebida/
+│   │   ├── Cart/
 │   │   ├── Cliente/
-│   │   └── Pedido/
-│   ├── appsettings.json       # Configurações da aplicação
-│   └── Program.cs            # Configuração de serviços
+│   │   ├── Evento/
+│   │   ├── Home/
+│   │   ├── Pedido/
+│   │   ├── Pizza/
+│   │   ├── Usuario/
+│   │   └── Shared/
+│   │       └── _Layout.cshtml
+│   ├── wwwroot/                     # Arquivos estáticos (CSS/JS/imagens)
+│   │   ├── css/
+│   │   ├── images/
+│   │   └── js/
+│   ├── appsettings.json             # Configurações da aplicação
+│   └── Program.cs                   # Configuração de serviços
 ├── docs/
 │   └── FACULDADE DE TECNOLOGIA DE ATIBAIA 4343.pdf
+│   └── mer.jpg   
 └── database.sql               # Script de criação do banco de dados
 ```
 
@@ -67,28 +85,36 @@ pi-mvc/
 - Edição e exclusão de produtos
 - Listagem completa de pizzas cadastradas
 
+### 🥤 Gestão de Produtos (Bebidas)
+- Cadastro, edição, exclusão e listagem de bebidas
+
 ### 👥 Gestão de Clientes
 - Cadastro de clientes com nome, telefone, email e CPF/CNPJ
 - Edição e exclusão de clientes
 - Listagem de todos os clientes
 
 ### 📦 Gestão de Pedidos
-- Registro de pedidos com múltiplos itens
-- Controle de status do pedido:
-  - **Feito** → **Em Produção** → **Pronto** → **Entregue**
-- Cálculo automático do valor total
-- Atualização de status em tempo real
-- Listagem de todos os pedidos com filtros visuais por status
+- Registro de pedidos com múltiplos itens (pizzas e bebidas) e cálculo automático do total
+- Checkout a partir do carrinho (com forma de pagamento)
+- Tela **Meus Pedidos** (cliente) com busca por CPF/CNPJ e memória local (localStorage) para não precisar de login
+- Listagem de pedidos (admin) com botões para transição de status:
+  - **Pendente** → **Em Andamento** → **Concluido**
 
 ### 💰 Controle de Pagamentos
 - Registro de pagamentos (PIX, Cartão, Dinheiro)
 - Status de pagamento
 - Integração com pedidos
 
+### 📅 Gestão de Eventos
+- Cadastro, edição, exclusão e listagem de eventos
+
+### 🧑‍💼 Gestão de Usuários
+- Cadastro, edição, exclusão e listagem de usuários
+
 ## ⚙️ Como Executar o Projeto
 
 ### Pré-requisitos
-- .NET SDK 10.0 ou superior
+- .NET SDK 8.0 ou superior
 - MySQL Server instalado e rodando
 - Visual Studio 2022 ou VS Code (opcional)
 
@@ -132,15 +158,18 @@ pi-mvc/
 | Entidade | Descrição |
 |----------|-----------|
 | **Pizza** | Produtos do cardápio com preço e categoria |
+| **Bebida** | Bebidas com preço e categoria |
 | **Cliente** | Pessoas físicas ou jurídicas que realizam pedidos |
 | **Pedido** | Registro de pedidos com status e valor total |
-| **ItemPedido** | Itens individuais de um pedido (pizza + quantidade) |
+| **ItemPedido** | Itens individuais de um pedido (pizza/bebida + quantidade) |
 | **Pagamento** | Informações de pagamento vinculadas ao pedido |
+| **Evento** | Eventos cadastrados para divulgação/controle |
+| **Usuario** | Usuários administradores/operadores do sistema |
 
 ### Relacionamentos
 - Um **Cliente** pode ter vários **Pedidos**
 - Um **Pedido** possui vários **ItensPedido**
-- Cada **ItemPedido** referencia uma **Pizza**
+- Cada **ItemPedido** referencia uma **Pizza** ou uma **Bebida**
 - Um **Pedido** possui um **Pagamento**
 
 ## 📊 Requisitos Atendidos (Baseado no Documento de Requisitos)

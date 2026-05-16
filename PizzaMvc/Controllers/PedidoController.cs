@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PizzaMvc.Data;
 using PizzaMvc.Models;
@@ -9,6 +10,7 @@ namespace PizzaMvc.Controllers;
 public class PedidoController : Controller
 {
     private readonly AppDbContext _context;
+    private const string ClientIdCookieName = "pi_client_id";
 
     private sealed record CartItemPayload(string? Entity, int Id, int Quantity);
 
@@ -23,8 +25,89 @@ public class PedidoController : Controller
             .Include(p => p.Cliente)
             .Include(p => p.Itens)
             .ThenInclude(i => i.Pizza)
+            .Include(p => p.Itens)
+            .ThenInclude(i => i.Bebida)
+            .Include(p => p.Pagamento)
             .ToListAsync();
         return View(pedidos);
+    }
+
+    [HttpGet]
+    public IActionResult MeusPedidos()
+    {
+        ViewBag.NeedsDocumento = true;
+        return View("MeusPedidos", Enumerable.Empty<Pedido>());
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetByClientId(int clientId)
+    {
+        if (clientId <= 0) return NotFound();
+
+        var pedidos = await _context.Pedidos
+            .AsNoTracking()
+            .Where(p => p.ClienteId == clientId)
+            .Include(p => p.Cliente)
+            .Include(p => p.Pagamento)
+            .Include(p => p.Itens)
+            .ThenInclude(i => i.Pizza)
+            .Include(p => p.Itens)
+            .ThenInclude(i => i.Bebida)
+            .OrderByDescending(p => p.DataPedido)
+            .ToListAsync();
+
+        Response.Cookies.Append(ClientIdCookieName, clientId.ToString(), new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddDays(30),
+            HttpOnly = true,
+            IsEssential = true,
+            SameSite = SameSiteMode.Lax,
+            Secure = false
+        });
+
+        return View("MeusPedidos", pedidos);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetByCpfCnpj(string cpfCnpj)
+    {
+        var normalized = NormalizeCpfCnpj(cpfCnpj);
+        if (string.IsNullOrWhiteSpace(normalized))
+        {
+            ViewBag.NeedsDocumento = true;
+            ViewBag.InvalidDocumento = true;
+            ViewBag.Documento = cpfCnpj;
+            return View("MeusPedidos", Enumerable.Empty<Pedido>());
+        }
+
+        var cliente = await _context.Clientes
+            .AsNoTracking()
+            .FirstOrDefaultAsync(c =>
+                c.CpfCnpj != null
+                && c.CpfCnpj.Replace(".", string.Empty).Replace("-", string.Empty).Replace("/", string.Empty).Replace(" ", string.Empty) == normalized);
+
+        if (cliente == null)
+        {
+            ViewBag.NeedsDocumento = true;
+            ViewBag.ClientNotFound = true;
+            ViewBag.Documento = cpfCnpj;
+            return View("MeusPedidos", Enumerable.Empty<Pedido>());
+        }
+
+        var pedidos = await _context.Pedidos
+            .AsNoTracking()
+            .Where(p => p.ClienteId == cliente.Id)
+            .Include(p => p.Cliente)
+            .Include(p => p.Pagamento)
+            .Include(p => p.Itens)
+            .ThenInclude(i => i.Pizza)
+            .Include(p => p.Itens)
+            .ThenInclude(i => i.Bebida)
+            .OrderByDescending(p => p.DataPedido)
+            .ToListAsync();
+
+        ViewBag.Documento = cliente.CpfCnpj;
+        return View("MeusPedidos", pedidos);
     }
 
     public async Task<IActionResult> Create()
@@ -130,6 +213,25 @@ public class PedidoController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    public async Task<IActionResult> UpdateStatus(int id, string status)
+    {
+        var pedido = await _context.Pedidos.FindAsync(id);
+        if (pedido == null) return NotFound();
+
+        var next = (status ?? string.Empty).Trim();
+        var current = (pedido.Status ?? string.Empty).Trim();
+
+        var allowed = (current == "Pendente" && next == "Em Andamento")
+            || (current == "Em Andamento" && next == "Concluido");
+
+        if (!allowed) return BadRequest();
+
+        pedido.Status = next;
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
     [HttpGet]
     public IActionResult Checkout()
     {
@@ -157,6 +259,16 @@ public class PedidoController : Controller
             ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
             ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
             ViewBag.Error = "Informe o nome do cliente.";
+            return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
+        }
+
+        cliente.CpfCnpj = NormalizeCpfCnpj(cliente.CpfCnpj);
+        if (string.IsNullOrWhiteSpace(cliente.CpfCnpj))
+        {
+            ViewBag.Checkout = true;
+            ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
+            ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
+            ViewBag.Error = "Informe o CPF/CNPJ.";
             return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
         }
 
@@ -194,8 +306,22 @@ public class PedidoController : Controller
         await using var tx = await _context.Database.BeginTransactionAsync();
         try
         {
-            _context.Clientes.Add(cliente);
-            await _context.SaveChangesAsync();
+            var existingClient = await TryResolveExistingClientAsync(cliente);
+            if (existingClient == null)
+            {
+                _context.Clientes.Add(cliente);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                existingClient.Nome = cliente.Nome;
+                existingClient.Telefone = cliente.Telefone;
+                existingClient.Email = cliente.Email;
+                existingClient.CpfCnpj = cliente.CpfCnpj;
+                _context.Clientes.Update(existingClient);
+                await _context.SaveChangesAsync();
+                cliente = existingClient;
+            }
 
             var pedido = new Pedido
             {
@@ -258,6 +384,15 @@ public class PedidoController : Controller
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
 
+            Response.Cookies.Append(ClientIdCookieName, cliente.Id.ToString(), new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddDays(30),
+                HttpOnly = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.Lax,
+                Secure = false
+            });
+
             return RedirectToAction("Index", "Home", new { pedido = pedido.Id });
         }
         catch
@@ -269,5 +404,46 @@ public class PedidoController : Controller
             ViewBag.Error = "Não foi possível finalizar o pedido. Tente novamente.";
             return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
         }
+    }
+
+    private int? TryGetClientIdFromCookie()
+    {
+        if (!Request.Cookies.TryGetValue(ClientIdCookieName, out var raw)) return null;
+        if (!int.TryParse(raw, out var id)) return null;
+        return id > 0 ? id : null;
+    }
+
+    private async Task<Cliente?> TryResolveExistingClientAsync(Cliente cliente)
+    {
+        var cookieClientId = TryGetClientIdFromCookie();
+        if (cookieClientId.HasValue)
+        {
+            var fromCookie = await _context.Clientes.FirstOrDefaultAsync(c => c.Id == cookieClientId.Value);
+            if (fromCookie != null) return fromCookie;
+        }
+
+        var cpf = NormalizeCpfCnpj(cliente.CpfCnpj);
+        if (!string.IsNullOrWhiteSpace(cpf))
+        {
+            var byCpf = await _context.Clientes.FirstOrDefaultAsync(c =>
+                c.CpfCnpj != null
+                && c.CpfCnpj.Replace(".", string.Empty).Replace("-", string.Empty).Replace("/", string.Empty).Replace(" ", string.Empty) == cpf);
+            if (byCpf != null) return byCpf;
+        }
+
+        var email = (cliente.Email ?? string.Empty).Trim();
+        if (!string.IsNullOrWhiteSpace(email))
+        {
+            var byEmail = await _context.Clientes.FirstOrDefaultAsync(c => c.Email == email);
+            if (byEmail != null) return byEmail;
+        }
+
+        return null;
+    }
+
+    private static string NormalizeCpfCnpj(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return string.Empty;
+        return new string(value.Where(char.IsDigit).ToArray());
     }
 }
