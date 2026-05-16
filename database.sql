@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS pizzas (
     Sabor VARCHAR(100) NOT NULL,
     Descricao TEXT,
     Preco DECIMAL(10,2) NOT NULL,
-    Categoria VARCHAR(50)
+    Categoria VARCHAR(50),
+    Image VARCHAR(255)
 );
 
 -- Tabela de bebidas
@@ -30,7 +31,8 @@ CREATE TABLE IF NOT EXISTS bebidas (
     Sabor VARCHAR(100) NOT NULL,
     Descricao TEXT,
     Preco DECIMAL(10,2) NOT NULL,
-    Categoria VARCHAR(50)
+    Categoria VARCHAR(50),
+    Image VARCHAR(255)
 );
 
 -- Tabela de eventos

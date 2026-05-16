@@ -3,32 +3,55 @@
     ViewBag.Title = "Nova Pizza";
 }
 
-<h2>Nova Pizza</h2>
-<form method="post" action="/Pizza/Create">
-    <div class="mb-3">
-        <label>Nome</label>
-        <input name="Nome" class="form-control" value="@Model.Nome" required />
+<section class="section">
+    <div class="section__header">
+        <h2>Nova Pizza</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Pizza")">Ver Pizzas</a>
+        </div>
     </div>
-    <div class="mb-3">
-        <label>Sabor</label>
-        <input name="Sabor" class="form-control" value="@Model.Sabor" required />
+
+    <div class="surface">
+        <form class="form" method="post" enctype="multipart/form-data" action="@Url.Action("Create", "Pizza")">
+            <div class="form__grid">
+                <div class="field">
+                    <label for="Nome">Nome</label>
+                    <input id="Nome" name="Nome" class="input" value="@Model.Nome" required />
+                </div>
+                <div class="field">
+                    <label for="Sabor">Sabor</label>
+                    <input id="Sabor" name="Sabor" class="input" value="@Model.Sabor" required />
+                </div>
+                <div class="field">
+                    <label for="Preco">Preço</label>
+                    <input id="Preco" name="Preco" type="number" step="0.01" class="input" value="@Model.Preco" required />
+                </div>
+                <div class="field">
+                    <label for="Categoria">Categoria</label>
+                    <select id="Categoria" name="Categoria" class="select">
+                        <option value="Tradicional" selected="@(Model.Categoria == "Tradicional")">Tradicional</option>
+                        <option value="Especial" selected="@(Model.Categoria == "Especial")">Especial</option>
+                        <option value="Doce" selected="@(Model.Categoria == "Doce")">Doce</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="Descricao">Descrição</label>
+                <textarea id="Descricao" name="Descricao" class="textarea">@Model.Descricao</textarea>
+            </div>
+
+            <div class="field">
+                <label for="imageFile">Imagem</label>
+                <input id="imageFile" name="imageFile" type="file" accept="image/*" class="input" />
+                <div class="help-text">PNG, JPG, JPEG, WEBP ou GIF</div>
+            </div>
+
+            <div class="actions-bar">
+                <button type="submit" class="btn btn--primary">Salvar</button>
+                <a class="btn btn--outline" href="@Url.Action("Index", "Pizza")">Cancelar</a>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label>Descrição</label>
-        <textarea name="Descricao" class="form-control">@Model.Descricao</textarea>
-    </div>
-    <div class="mb-3">
-        <label>Preço</label>
-        <input name="Preco" type="number" step="0.01" class="form-control" value="@Model.Preco" required />
-    </div>
-    <div class="mb-3">
-        <label>Categoria</label>
-        <select name="Categoria" class="form-control">
-            <option value="Tradicional" selected="@(Model.Categoria == "Tradicional")">Tradicional</option>
-            <option value="Especial" selected="@(Model.Categoria == "Especial")">Especial</option>
-            <option value="Doce" selected="@(Model.Categoria == "Doce")">Doce</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a href="/Pizza" class="btn btn-secondary">Voltar</a>
-</form>
+</section>

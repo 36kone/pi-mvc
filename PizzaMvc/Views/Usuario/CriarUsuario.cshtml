@@ -3,27 +3,43 @@
     ViewBag.Title = "Novo Usuário";
 }
 
-<h2>Novo Usuário</h2>
-<form method="post" action="/Usuario/Create">
-    <div class="mb-3">
-        <label>Nome</label>
-        <input name="Nome" class="form-control" value="@Model.Nome" required />
+<section class="section">
+    <div class="section__header">
+        <h2>Novo Usuário</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Usuario")">Ver Usuários</a>
+        </div>
     </div>
-    <div class="mb-3">
-        <label>Email</label>
-        <input name="Email" type="email" class="form-control" value="@Model.Email" required />
+
+    <div class="surface">
+        <form class="form" method="post" action="@Url.Action("Create", "Usuario")">
+            <div class="form__grid">
+                <div class="field">
+                    <label for="Nome">Nome</label>
+                    <input id="Nome" name="Nome" class="input" value="@Model.Nome" required />
+                </div>
+                <div class="field">
+                    <label for="Email">Email</label>
+                    <input id="Email" name="Email" type="email" class="input" value="@Model.Email" required />
+                </div>
+                <div class="field">
+                    <label for="Senha">Senha</label>
+                    <input id="Senha" name="Senha" type="password" class="input" required />
+                </div>
+                <div class="field">
+                    <label for="Tipo">Tipo</label>
+                    <select id="Tipo" name="Tipo" class="select">
+                        <option value="Admin" selected="@(Model.Tipo == "Admin")">Admin</option>
+                        <option value="Usuario" selected="@(Model.Tipo == "Usuario")">Usuário</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions-bar">
+                <button type="submit" class="btn btn--primary">Salvar</button>
+                <a class="btn btn--outline" href="@Url.Action("Index", "Usuario")">Cancelar</a>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label>Senha</label>
-        <input name="Senha" type="password" class="form-control" required />
-    </div>
-    <div class="mb-3">
-        <label>Tipo</label>
-        <select name="Tipo" class="form-control">
-            <option value="Admin">Admin</option>
-            <option value="Usuario">Usuário</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-success">Salvar</button>
-    <a href="/Usuario" class="btn btn-secondary">Voltar</a>
-</form>
+</section>

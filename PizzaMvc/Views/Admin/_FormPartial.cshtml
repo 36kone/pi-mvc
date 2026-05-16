@@ -1,0 +1,40 @@
+@model dynamic
+@{
+    var action = Model.Action as string;
+    var controller = Model.Controller as string;
+    var fields = Model.Fields as IEnumerable<dynamic>;
+}
+<form asp-controller="@controller" asp-action="@action" method="post" class="admin-form">
+    @foreach (var f in fields)
+    {
+        var fieldName = (string)f.Name;
+        <div class="form-group">
+            <label for="@fieldName">@fieldName</label>
+
+            @if (f.Type == "select")
+            {
+                <select name="@fieldName" class="form-control" required="@(f.Required)">
+                    @foreach (var opt in f.Options)
+                    {
+                        <option value="@opt">@opt</option>
+                    }
+                </select>
+            }
+            else if (f.Type == "textarea")
+            {
+                <textarea name="@fieldName" class="form-control" placeholder="@(f.Placeholder ?? "")"
+                          required="@(f.Required)"></textarea>
+            }
+            else
+            {
+                <input type="@f.Type"
+                       name="@fieldName"
+                       step="@(f.Step ?? "")"
+                       placeholder="@(f.Placeholder ?? "")"
+                       class="form-control"
+                       required="@(f.Required)" />
+            }
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Salvar</button>
+</form>

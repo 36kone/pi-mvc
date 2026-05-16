@@ -1,0 +1,39 @@
+@{
+    ViewBag.Title = "Administração";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="section">
+    <div class="section__header">
+        <h2>Painel de Administração</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Pizza")">Ver Pizzas</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Bebida")">Ver Bebidas</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Usuario")">Ver Usuários</a>
+        </div>
+    </div>
+
+    <div class="spacer-16"></div>
+
+    <div class="cards-grid">
+        <div class="card card--static">
+            <div class="card__body">
+                <h3>Pedidos (Total)</h3>
+                <div class="card__category">@ViewBag.TotalPedidos</div>
+            </div>
+        </div>
+
+        <div class="card card--static">
+            <div class="card__body">
+                <h3>Pedidos (Pendente)</h3>
+                <div class="card__category">@ViewBag.PedidosPendentes</div>
+            </div>
+        </div>
+
+        <div class="card card--static">
+            <div class="card__body">
+                <h3>Pedidos (Concluído)</h3>
+                <div class="card__category">@ViewBag.PedidosConcluidos</div>
+            </div>
+        </div>
+    </div>
+</section>

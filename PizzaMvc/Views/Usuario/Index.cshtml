@@ -3,34 +3,55 @@
     ViewBag.Title = "Usuários";
 }
 
-<h2>Usuários</h2>
-<a href="/Usuario/Create" class="btn btn-primary mb-3">Novo Usuário</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Tipo</th>
-            <th>Data Criação</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Nome</td>
-                <td>@item.Email</td>
-                <td>@item.Tipo</td>
-                <td>@item.DataCriacao.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    <a href="/Usuario/Edit/@item.Id" class="btn btn-sm btn-warning">Editar</a>
-                    <form action="/Usuario/DeleteConfirmed/@item.Id" method="post" style="display:inline">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('Confirma?')">Excluir</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<section class="section">
+    <div class="section__header">
+        <h2>Usuários</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--primary" href="@Url.Action("Create", "Usuario")">Novo Usuário</a>
+        </div>
+    </div>
+
+    @if (Model?.Any() != true)
+    {
+        <div class="surface empty-state">
+            <h3>Nenhum usuário cadastrado</h3>
+            <p>Crie um usuário para ele aparecer aqui.</p>
+            <a class="btn btn--primary" href="@Url.Action("Create", "Usuario")">Criar Usuário</a>
+        </div>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Tipo</th>
+                    <th>Data Criação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td>@item.Email</td>
+                        <td>@item.Tipo</td>
+                        <td>@item.DataCriacao.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <div class="data-table__actions">
+                                <a class="btn btn--sm btn--warning" href="@Url.Action("Edit", "Usuario", new { id = item.Id })">Editar</a>
+                                <form action="@Url.Action("DeleteConfirmed", "Usuario", new { id = item.Id })" method="post">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button class="btn btn--sm btn--danger" onclick="return confirm('Confirma?')">Excluir</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

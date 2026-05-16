@@ -1,14 +1,18 @@
-import Navbar from '../components/navbar.js';
+import Navbar from './navbar.js';
+
+console.log('Main.js carregado');
 
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM pronto, carregando navbar');
   const navbar = new Navbar();
+  console.log('Navbar criado:', navbar);
   navbar.mount('#navbar-container');
 
   initCarousel();
-  updateCartCount();
+  // updateCartCount();
   const cartPage = document.getElementById("cart-page");
   if (cartPage) {
-    renderCart();
+    // renderCart();
   }
 });
 
@@ -39,4 +43,11 @@ function initCarousel() {
     });
   });
 }
-1
+
+function updateCartCount() {
+  // TODO: Implementar lógica de atualização do carrinho
+}
+
+function renderCart() {
+  // TODO: Implementar renderização do carrinho
+}
