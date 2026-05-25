@@ -52,10 +52,13 @@ CREATE TABLE IF NOT EXISTS pedidos (
     DataPedido DATETIME NOT NULL,
     Status VARCHAR(50) NOT NULL DEFAULT 'Pendente',
     Total DECIMAL(10,2) NOT NULL DEFAULT 0,
-    FOREIGN KEY (ClienteId) REFERENCES clientes(Id)
+
+    CONSTRAINT fk_pedidos_clientes
+        FOREIGN KEY (ClienteId) REFERENCES clientes(Id)
 );
 
 -- Tabela de itens do pedido
+-- Agora o item pode ser pizza OU bebida
 CREATE TABLE IF NOT EXISTS itens_pedido (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     PedidoId INT NOT NULL,
@@ -63,10 +66,25 @@ CREATE TABLE IF NOT EXISTS itens_pedido (
     BebidaId INT NULL,
     Quantidade INT NOT NULL,
     PrecoUnitario DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (PedidoId) REFERENCES pedidos(Id),
-    FOREIGN KEY (PizzaId) REFERENCES pizzas(Id),
-    FOREIGN KEY (BebidaId) REFERENCES bebidas(Id)
+
+    CONSTRAINT fk_itens_pedido_pedidos
+        FOREIGN KEY (PedidoId) REFERENCES pedidos(Id),
+
+    CONSTRAINT fk_itens_pedido_pizzas
+        FOREIGN KEY (PizzaId) REFERENCES pizzas(Id),
+
+    CONSTRAINT fk_itens_pedido_bebidas
+        FOREIGN KEY (BebidaId) REFERENCES bebidas(Id)
 );
+
+CREATE INDEX idx_itens_pedido_pedido_id
+    ON itens_pedido (PedidoId);
+
+CREATE INDEX idx_itens_pedido_pizza_id
+    ON itens_pedido (PizzaId);
+
+CREATE INDEX idx_itens_pedido_bebida_id
+    ON itens_pedido (BebidaId);
 
 -- Tabela de pagamentos
 CREATE TABLE IF NOT EXISTS pagamentos (
@@ -76,7 +94,9 @@ CREATE TABLE IF NOT EXISTS pagamentos (
     Valor DECIMAL(10,2) NOT NULL,
     DataPagamento DATETIME NOT NULL,
     Status VARCHAR(50) NOT NULL DEFAULT 'Pago',
-    FOREIGN KEY (PedidoId) REFERENCES pedidos(Id)
+
+    CONSTRAINT fk_pagamentos_pedidos
+        FOREIGN KEY (PedidoId) REFERENCES pedidos(Id)
 );
 
 -- Tabela de usuarios (admin)
@@ -105,26 +125,27 @@ INSERT INTO bebidas (Nome, Sabor, Descricao, Preco, Categoria) VALUES
 ('Água Mineral', 'Sem sabor', 'Água mineral sem gás 500ml', 2.00, 'Água'),
 ('Suco de Laranja', 'Laranja', 'Suco natural de laranja 300ml', 5.00, 'Suco');
 
+-- Clientes
 INSERT INTO clientes (Nome, Telefone, Email, CpfCnpj) VALUES
 ('João Silva', '11999999999', 'joao@gmail.com', '12345678900'),
 ('Maria Oliveira', '11988888888', 'maria@gmail.com', '98765432100');
 
--- PEDIDOS
+-- Pedidos
 INSERT INTO pedidos (ClienteId, DataPedido, Status, Total) VALUES
 (1, NOW(), 'Em preparo', 73.00),
-(2, NOW(), 'Entregue', 42.00);
+(2, NOW(), 'Entregue', 58.00);
 
--- ITENS DO PEDIDO
+-- Itens do pedido
 INSERT INTO itens_pedido (PedidoId, PizzaId, BebidaId, Quantidade, PrecoUnitario) VALUES
 (1, 1, NULL, 1, 35.00), -- Margherita
 (1, 2, NULL, 1, 38.00), -- Calabresa
 (2, NULL, 1, 2, 8.00), -- 2 Coca-Cola
 (2, 3, NULL, 1, 42.00); -- Portuguesa
 
--- PAGAMENTOS
+-- Pagamentos
 INSERT INTO pagamentos (PedidoId, FormaPagamento, Valor, DataPagamento, Status) VALUES
 (1, 'Cartão de Crédito', 73.00, NOW(), 'Pago'),
-(2, 'PIX', 42.00, NOW(), 'Pago');
+(2, 'PIX', 58.00, NOW(), 'Pago');
 
 -- Inserir usuario admin de exemplo
 INSERT INTO usuarios (Nome, Email, Senha, Tipo) VALUES
