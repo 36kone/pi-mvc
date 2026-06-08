@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using PizzaMvc.Data;
 using PizzaMvc.Models;
-using Microsoft.AspNetCore.Http;
-using System.IO;
+using PizzaMvc.Helpers;
 
 namespace PizzaMvc.Controllers;
 
@@ -55,37 +53,13 @@ public class PizzaController : Controller
     {
         if (!ModelState.IsValid) return View("CriarPizza", pizza);
 
-        if (imageFile != null && imageFile.Length > 0)
+        var upload = await ImageUploadHelper.SaveAsync(imageFile, _env, "pizzas");
+        if (upload.Error != null)
         {
-            var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
-            var allowed = extension is ".png" or ".jpg" or ".jpeg" or ".webp" or ".gif";
-            if (!allowed)
-            {
-                ModelState.AddModelError(string.Empty, "Formato de imagem inválido. Use PNG, JPG, JPEG, WEBP ou GIF.");
-                return View("CriarPizza", pizza);
-            }
-
-            try
-            {
-                var uploadsPath = Path.Combine(_env.ContentRootPath, "files", "pizzas");
-                Directory.CreateDirectory(uploadsPath);
-
-                var fileName = $"{Guid.NewGuid()}{extension}";
-                var fullPath = Path.Combine(uploadsPath, fileName);
-
-                await using (var stream = System.IO.File.Create(fullPath))
-                {
-                    await imageFile.CopyToAsync(stream);
-                }
-
-                pizza.Image = $"/files/pizzas/{fileName}";
-            }
-            catch
-            {
-                ModelState.AddModelError(string.Empty, "Não foi possível salvar a imagem. Tente novamente.");
-                return View("CriarPizza", pizza);
-            }
+            ModelState.AddModelError(string.Empty, upload.Error);
+            return View("CriarPizza", pizza);
         }
+        if (upload.Path != null) pizza.Image = upload.Path;
 
         _context.Pizzas.Add(pizza);
         await _context.SaveChangesAsync();
@@ -114,39 +88,14 @@ public class PizzaController : Controller
 
         var imagePath = existing.Image;
 
-        if (imageFile != null && imageFile.Length > 0)
+        var upload = await ImageUploadHelper.SaveAsync(imageFile, _env, "pizzas");
+        if (upload.Error != null)
         {
-            var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
-            var allowed = extension is ".png" or ".jpg" or ".jpeg" or ".webp" or ".gif";
-            if (!allowed)
-            {
-                ModelState.AddModelError(string.Empty, "Formato de imagem inválido. Use PNG, JPG, JPEG, WEBP ou GIF.");
-                pizza.Image = imagePath;
-                return View("EditarPizza", pizza);
-            }
-
-            try
-            {
-                var uploadsPath = Path.Combine(_env.ContentRootPath, "files", "pizzas");
-                Directory.CreateDirectory(uploadsPath);
-
-                var fileName = $"{Guid.NewGuid()}{extension}";
-                var fullPath = Path.Combine(uploadsPath, fileName);
-
-                await using (var stream = System.IO.File.Create(fullPath))
-                {
-                    await imageFile.CopyToAsync(stream);
-                }
-
-                imagePath = $"/files/pizzas/{fileName}";
-            }
-            catch
-            {
-                ModelState.AddModelError(string.Empty, "Não foi possível salvar a imagem. Tente novamente.");
-                pizza.Image = imagePath;
-                return View("EditarPizza", pizza);
-            }
+            ModelState.AddModelError(string.Empty, upload.Error);
+            pizza.Image = imagePath;
+            return View("EditarPizza", pizza);
         }
+        if (upload.Path != null) imagePath = upload.Path;
 
         existing.Nome = pizza.Nome;
         existing.Sabor = pizza.Sabor;

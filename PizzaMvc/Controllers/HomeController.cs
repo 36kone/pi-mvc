@@ -32,7 +32,7 @@ public class HomeController : Controller
             .ThenByDescending(e => e.Id)
             .ToListAsync();
 
-        return View(new HomeIndexViewModel
+        return View(new HomeViewModel
         {
             Pizzas = pizzas,
             Bebidas = bebidas,
@@ -46,7 +46,7 @@ public class HomeController : Controller
         var keyword = (q ?? string.Empty).Trim();
         if (keyword.Length == 0)
         {
-            return View(new HomeSearchViewModel
+            return View(new HomeViewModel
             {
                 Query = keyword
             });
@@ -76,7 +76,7 @@ public class HomeController : Controller
             .Take(50)
             .ToListAsync();
 
-        return View(new HomeSearchViewModel
+        return View(new HomeViewModel
         {
             Query = keyword,
             Pizzas = pizzas,
@@ -86,14 +86,7 @@ public class HomeController : Controller
     }
 }
 
-public sealed class HomeIndexViewModel
-{
-    public List<Pizza> Pizzas { get; set; } = [];
-    public List<Bebida> Bebidas { get; set; } = [];
-    public List<Evento> Eventos { get; set; } = [];
-}
-
-public sealed class HomeSearchViewModel
+public sealed class HomeViewModel
 {
     public string Query { get; set; } = string.Empty;
     public List<Pizza> Pizzas { get; set; } = [];

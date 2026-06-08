@@ -90,43 +90,18 @@ CREATE TABLE IF NOT EXISTS usuarios (
 );
 
 -- Inserir algumas pizzas de exemplo
-INSERT INTO pizzas (Nome, Sabor, Descricao, Preco, Categoria) VALUES
-('Margherita', 'Queijo e Tomate', 'Molho de tomate, mussarela e manjericao', 35.00, 'Tradicional'),
-('Calabresa', 'Calabresa', 'Calabresa fatiada, cebola e queijo', 38.00, 'Tradicional'),
-('Portuguesa', 'Portuguesa', 'Presunto, ovo, cebola, ervilha e queijo', 42.00, 'Tradicional'),
-('Quatro Queijos', 'Quatro Queijos', 'Mussarela, provolone, gorgonzola e parmesao', 45.00, 'Especial'),
-('Chocolate', 'Chocolate', 'Chocolate ao leite e granulado', 40.00, 'Doce'),
-('Brigadeiro', 'Brigadeiro', 'Brigadeiro e chocolate granulado', 42.00, 'Doce');
+INSERT INTO pizzas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (19, 'Margherita', 'Queijo e Tomate', 'Molho de tomate, mussarela e manjericao', 35.00, 'Tradicional', '/files/pizzas/2cbe3650-108e-43e3-b9f7-d6dbd93b91b9.jpeg');
+INSERT INTO pizzas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (20, 'Calabresa', 'Calabresa', 'Calabresa fatiada, cebola e queijo', 38.00, 'Tradicional', '/files/pizzas/0f5ce7af-9729-4f89-8cb4-f90fb8d7d474.jpeg');
+INSERT INTO pizzas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (22, 'Quatro Queijos', 'Quatro Queijos', 'Mussarela, provolone, gorgonzola e parmesao', 45.00, 'Especial', '/files/pizzas/5bdb2b0d-985c-45e7-9288-140c58109096.jpeg');
+INSERT INTO pizzas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (23, 'Banana com Canela', 'Banana com Canela', 'Banana com Canela', 40.00, 'Doce', '/files/pizzas/b8859b9e-dd67-4457-a703-7d3699b9d12e.jpeg');
+INSERT INTO pizzas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (25, 'teste', 'teste', 'sdaas', 0.00, 'Tradicional', '/files/pizzas/8caddd11-e74f-4241-8113-5c5d9d26fef0.png');
 
 -- Inserir algumas bebidas de exemplo
-INSERT INTO bebidas (Nome, Sabor, Descricao, Preco, Categoria) VALUES
-('Coca-Cola', 'Cola', 'Refrigerante Coca-Cola 2L', 8.00, 'Refrigerante'),
-('Guaraná Antarctica', 'Guaraná', 'Refrigerante Guaraná Antarctica 2L', 7.50, 'Refrigerante'),
-('Água Mineral', 'Sem sabor', 'Água mineral sem gás 500ml', 2.00, 'Água'),
-('Suco de Laranja', 'Laranja', 'Suco natural de laranja 300ml', 5.00, 'Suco');
+INSERT INTO bebidas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (3, 'Água Mineral', 'Sem sabor', 'Água mineral sem gás 500ml', 2.00, 'Água', '/files/bebidas/43d1495b-8935-4a70-b465-da4359a7d87d.jpg');
+INSERT INTO bebidas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (4, 'Suco de Laranja', 'Laranja', 'Suco natural de laranja 300ml', 5.00, 'Suco', '/files/bebidas/1f147002-a0b3-43c3-b2bf-d7327cef4567.jpeg');
+INSERT INTO bebidas (Id, Nome, Sabor, Descricao, Preco, Categoria, Image) VALUES (5, 'Coca-Cola', 'Cola', 'Refrigerante Coca-Cola 2L', 8.00, 'Refrigerante', '/files/bebidas/18c33812-d1ea-463a-8a82-ae4afee4a489.png');
 
-INSERT INTO clientes (Nome, Telefone, Email, CpfCnpj) VALUES
-('João Silva', '11999999999', 'joao@gmail.com', '12345678900'),
-('Maria Oliveira', '11988888888', 'maria@gmail.com', '98765432100');
-
--- PEDIDOS
-INSERT INTO pedidos (ClienteId, DataPedido, Status, Total) VALUES
-(1, NOW(), 'Em preparo', 73.00),
-(2, NOW(), 'Entregue', 42.00);
-
--- ITENS DO PEDIDO
-INSERT INTO itens_pedido (PedidoId, PizzaId, BebidaId, Quantidade, PrecoUnitario) VALUES
-(1, 1, NULL, 1, 35.00), -- Margherita
-(1, 2, NULL, 1, 38.00), -- Calabresa
-(2, NULL, 1, 2, 8.00), -- 2 Coca-Cola
-(2, 3, NULL, 1, 42.00); -- Portuguesa
-
--- PAGAMENTOS
-INSERT INTO pagamentos (PedidoId, FormaPagamento, Valor, DataPagamento, Status) VALUES
-(1, 'Cartão de Crédito', 73.00, NOW(), 'Pago'),
-(2, 'PIX', 42.00, NOW(), 'Pago');
-
--- Inserir usuario admin de exemplo
-INSERT INTO usuarios (Nome, Email, Senha, Tipo) VALUES
-('Admin', 'admin@admin.com', '$2a$11$r3i6tKzq7K7lL7lL7lL7lO8vW9xXyYzZ1234567890123456789012', 'Admin'),
-('Usuario', 'user@email.com', '$2a$11$A1b2C3d4E5f6G7h8I9j0kLmNoPqRsTuVwXyZ12345678901234', 'User');
+-- Inserir alguns eventos de exemplo
+INSERT INTO eventos (Id, Nome, Descricao, DataEvento, Local, Image) VALUES (1, 'Reserva Evento', 'Reserva Evento', '2026-06-07 20:19:00', 'Atibaia', '/files/eventos/b6ac79e9-5e18-436c-8711-31109566cca3.jpeg');
+INSERT INTO eventos (Id, Nome, Descricao, DataEvento, Local, Image) VALUES (2, 'Pizza na sua casa', 'Pizza na sua casa', '2026-06-07 20:20:00', 'Atibaia', '/files/eventos/11d1be81-3435-442e-a8cd-e19460f2fdfa.jpeg');
+INSERT INTO eventos (Id, Nome, Descricao, DataEvento, Local, Image) VALUES (3, 'Festival Atibaia', 'Festival Atibaia', '2026-06-07 20:20:00', 'Atibaia', '/files/eventos/ac586e45-5255-412f-b319-82090b4188cc.jpeg');

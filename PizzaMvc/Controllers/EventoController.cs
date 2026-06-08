@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using PizzaMvc.Data;
 using PizzaMvc.Models;
-using System.IO;
+using PizzaMvc.Helpers;
 
 namespace PizzaMvc.Controllers
 {
@@ -71,37 +69,13 @@ namespace PizzaMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (imageFile != null && imageFile.Length > 0)
+                var upload = await ImageUploadHelper.SaveAsync(imageFile, _env, "eventos");
+                if (upload.Error != null)
                 {
-                    var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
-                    var allowed = extension is ".png" or ".jpg" or ".jpeg" or ".webp" or ".gif";
-                    if (!allowed)
-                    {
-                        ModelState.AddModelError(string.Empty, "Formato de imagem inválido. Use PNG, JPG, JPEG, WEBP ou GIF.");
-                        return View("CriarEvento", evento);
-                    }
-
-                    try
-                    {
-                        var uploadsPath = Path.Combine(_env.ContentRootPath, "files", "eventos");
-                        Directory.CreateDirectory(uploadsPath);
-
-                        var fileName = $"{Guid.NewGuid()}{extension}";
-                        var fullPath = Path.Combine(uploadsPath, fileName);
-
-                        await using (var stream = System.IO.File.Create(fullPath))
-                        {
-                            await imageFile.CopyToAsync(stream);
-                        }
-
-                        evento.Image = $"/files/eventos/{fileName}";
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError(string.Empty, "Não foi possível salvar a imagem. Tente novamente.");
-                        return View("CriarEvento", evento);
-                    }
+                    ModelState.AddModelError(string.Empty, upload.Error);
+                    return View("CriarEvento", evento);
                 }
+                if (upload.Path != null) evento.Image = upload.Path;
 
                 _context.Add(evento);
                 await _context.SaveChangesAsync();
@@ -143,39 +117,14 @@ namespace PizzaMvc.Controllers
 
                     var imagePath = existing.Image;
 
-                    if (imageFile != null && imageFile.Length > 0)
+                    var upload = await ImageUploadHelper.SaveAsync(imageFile, _env, "eventos");
+                    if (upload.Error != null)
                     {
-                        var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
-                        var allowed = extension is ".png" or ".jpg" or ".jpeg" or ".webp" or ".gif";
-                        if (!allowed)
-                        {
-                            ModelState.AddModelError(string.Empty, "Formato de imagem inválido. Use PNG, JPG, JPEG, WEBP ou GIF.");
-                            evento.Image = imagePath;
-                            return View("CriarEvento", evento);
-                        }
-
-                        try
-                        {
-                            var uploadsPath = Path.Combine(_env.ContentRootPath, "files", "eventos");
-                            Directory.CreateDirectory(uploadsPath);
-
-                            var fileName = $"{Guid.NewGuid()}{extension}";
-                            var fullPath = Path.Combine(uploadsPath, fileName);
-
-                            await using (var stream = System.IO.File.Create(fullPath))
-                            {
-                                await imageFile.CopyToAsync(stream);
-                            }
-
-                            imagePath = $"/files/eventos/{fileName}";
-                        }
-                        catch
-                        {
-                            ModelState.AddModelError(string.Empty, "Não foi possível salvar a imagem. Tente novamente.");
-                            evento.Image = imagePath;
-                            return View("CriarEvento", evento);
-                        }
+                        ModelState.AddModelError(string.Empty, upload.Error);
+                        evento.Image = imagePath;
+                        return View("CriarEvento", evento);
                     }
+                    if (upload.Path != null) imagePath = upload.Path;
 
                     existing.Nome = evento.Nome;
                     existing.Descricao = evento.Descricao;

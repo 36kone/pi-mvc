@@ -218,3 +218,4 @@ C:/Users/kone/projects/katia/pi-mvc/PizzaMvc/obj/Debug/net8.0/ref/PizzaMvc.dll
 /home/kone/RiderProjects/pi-mvc-main/PizzaMvc/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.PizzaMvc.props
 /home/kone/RiderProjects/pi-mvc-main/PizzaMvc/obj/Debug/net8.0/staticwebassets.pack.json
 /home/kone/RiderProjects/pi-mvc-main/PizzaMvc/obj/Debug/net8.0/PizzaMvc.csproj.CopyComplete
+/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/obj/Debug/net8.0/PizzaMvc.sourcelink.json

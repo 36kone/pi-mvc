@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaMvc.Data;
 using PizzaMvc.Models;
+using PizzaMvc.Helpers;
 
 namespace PizzaMvc.Controllers
 {
@@ -69,37 +70,13 @@ namespace PizzaMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (imageFile != null && imageFile.Length > 0)
+                var upload = await ImageUploadHelper.SaveAsync(imageFile, _env, "bebidas");
+                if (upload.Error != null)
                 {
-                    var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
-                    var allowed = extension is ".png" or ".jpg" or ".jpeg" or ".webp" or ".gif";
-                    if (!allowed)
-                    {
-                        ModelState.AddModelError(string.Empty, "Formato de imagem inválido. Use PNG, JPG, JPEG, WEBP ou GIF.");
-                        return View("CriarBebida", bebida);
-                    }
-
-                    try
-                    {
-                        var uploadsPath = Path.Combine(_env.ContentRootPath, "files", "bebidas");
-                        Directory.CreateDirectory(uploadsPath);
-
-                        var fileName = $"{Guid.NewGuid()}{extension}";
-                        var fullPath = Path.Combine(uploadsPath, fileName);
-
-                        await using (var stream = System.IO.File.Create(fullPath))
-                        {
-                            await imageFile.CopyToAsync(stream);
-                        }
-
-                        bebida.Image = $"/files/bebidas/{fileName}";
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError(string.Empty, "Não foi possível salvar a imagem. Tente novamente.");
-                        return View("CriarBebida", bebida);
-                    }
+                    ModelState.AddModelError(string.Empty, upload.Error);
+                    return View("CriarBebida", bebida);
                 }
+                if (upload.Path != null) bebida.Image = upload.Path;
 
                 _context.Add(bebida);
                 await _context.SaveChangesAsync();
@@ -141,39 +118,14 @@ namespace PizzaMvc.Controllers
 
                     var imagePath = existing.Image;
 
-                    if (imageFile != null && imageFile.Length > 0)
+                    var upload = await ImageUploadHelper.SaveAsync(imageFile, _env, "bebidas");
+                    if (upload.Error != null)
                     {
-                        var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
-                        var allowed = extension is ".png" or ".jpg" or ".jpeg" or ".webp" or ".gif";
-                        if (!allowed)
-                        {
-                            ModelState.AddModelError(string.Empty, "Formato de imagem inválido. Use PNG, JPG, JPEG, WEBP ou GIF.");
-                            bebida.Image = imagePath;
-                            return View("CriarBebida", bebida);
-                        }
-
-                        try
-                        {
-                            var uploadsPath = Path.Combine(_env.ContentRootPath, "files", "bebidas");
-                            Directory.CreateDirectory(uploadsPath);
-
-                            var fileName = $"{Guid.NewGuid()}{extension}";
-                            var fullPath = Path.Combine(uploadsPath, fileName);
-
-                            await using (var stream = System.IO.File.Create(fullPath))
-                            {
-                                await imageFile.CopyToAsync(stream);
-                            }
-
-                            imagePath = $"/files/bebidas/{fileName}";
-                        }
-                        catch
-                        {
-                            ModelState.AddModelError(string.Empty, "Não foi possível salvar a imagem. Tente novamente.");
-                            bebida.Image = imagePath;
-                            return View("CriarBebida", bebida);
-                        }
+                        ModelState.AddModelError(string.Empty, upload.Error);
+                        bebida.Image = imagePath;
+                        return View("CriarBebida", bebida);
                     }
+                    if (upload.Path != null) imagePath = upload.Path;
 
                     existing.Nome = bebida.Nome;
                     existing.Sabor = bebida.Sabor;
