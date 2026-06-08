@@ -1,0 +1,74 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyCompatibilityInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ourVersions">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="3.14" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="xlsxwriter" />
+          <option value="boto3" />
+          <option value="botocore" />
+          <option value="protobuf" />
+          <option value="fastapi" />
+          <option value="uvicorn" />
+          <option value="sqlalchemy" />
+          <option value="pydantic" />
+          <option value="passlib" />
+          <option value="python-jose" />
+          <option value="pydantic-settings" />
+          <option value="alembic" />
+          <option value="email_validator" />
+          <option value="python-dotenv" />
+          <option value="psycopg2-binary" />
+          <option value="bcrypt" />
+          <option value="python-multipart" />
+          <option value="minio" />
+          <option value="fastapi-mail" />
+          <option value="jinja2" />
+          <option value="requests" />
+          <option value="httpx" />
+          <option value="pika" />
+          <option value="aio-pika" />
+          <option value="imap-tools" />
+          <option value="evolutionapi" />
+          <option value="et-xmlfile" />
+          <option value="numpy" />
+          <option value="openpyxl" />
+          <option value="pandas" />
+          <option value="pytz" />
+          <option value="tzdata" />
+          <option value="dramatiq" />
+          <option value="prometheus-client" />
+          <option value="schedule" />
+          <option value="Pillow" />
+          <option value="Pyphen" />
+          <option value="brotli" />
+          <option value="cssselect2" />
+          <option value="fonttools" />
+          <option value="pydyf" />
+          <option value="tinycss2" />
+          <option value="tinyhtml5" />
+          <option value="weasyprint" />
+          <option value="webencodings" />
+          <option value="zopfli" />
+          <option value="APScheduler" />
+          <option value="tzlocal" />
+          <option value="opentelemetry-sdk" />
+          <option value="opentelemetry-exporter-otlp" />
+          <option value="opentelemetry-instrumentation-fastapi" />
+          <option value="opentelemetry-instrumentation-logging" />
+          <option value="poetry-core" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

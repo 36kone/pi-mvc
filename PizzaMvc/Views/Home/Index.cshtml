@@ -1,0 +1,242 @@
+@model PizzaMvc.Controllers.HomeIndexViewModel
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "_Layout";
+}
+
+<main>
+    <section class="hero">
+        <div class="container hero__content">
+            <div class="hero__text">
+                <h1>Explore as melhores Pizzas artesanais</h1>
+                <p>Descubra sabores incríveis com as Pizzas de longa fermentação.</p>
+            </div>
+            <form class="search-box" method="get" action="@Url.Action("Search", "Home")">
+                <div class="search-box__field">
+                    <span class="search-box__icon">🔍</span>
+                    <input type="text" name="q" placeholder="Buscar por sabor..." />
+                </div>
+                <button type="submit" class="btn btn--secondary">Buscar</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="section" id="destaque">
+        <div class="container">
+            <div class="section__header">
+                <h2>As mais pedidas</h2>
+            </div>
+            <div class="cards-row cards-row--large">
+                @if (Model.Pizzas.Count == 0)
+                {
+                    <div class="surface" style="padding:16px;">
+                        <strong>Nenhuma pizza cadastrada ainda.</strong>
+                        <div style="margin-top:12px;">
+                            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Ir para o Admin</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    foreach (var pizza in Model.Pizzas.Take(3))
+                    {
+                        var title = !string.IsNullOrWhiteSpace(pizza.Nome) ? pizza.Nome : (!string.IsNullOrWhiteSpace(pizza.Sabor) ? pizza.Sabor : "Pizza");
+                        var category = !string.IsNullOrWhiteSpace(pizza.Categoria) ? pizza.Categoria : "Pizza";
+                        var image = !string.IsNullOrWhiteSpace(pizza.Image) ? pizza.Image : "/imgs/pizza%20panceta.jpeg";
+                        var summary = string.Join(" • ", new[] { category, pizza.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
+
+                        <article class="card card--large js-view-entity" role="button" tabindex="0" data-entity="pizza" data-id="@pizza.Id" data-url="@Url.Action("GetById", "Pizza", new { id = pizza.Id })">
+                            <div class="card__image" style="background-image:url('@image');"></div>
+                            <div class="card__body">
+                                <h3>@title</h3>
+                                <p class="card__category">@category</p>
+                                <div class="card__meta">
+                                    <span>R$ @pizza.Preco.ToString("0.00")</span>
+                                    <button type="button"
+                                            class="btn btn--ghost btn--sm js-add-to-cart"
+                                            aria-label="Adicionar ao carrinho"
+                                            data-entity="pizza"
+                                            data-id="@pizza.Id"
+                                            data-name="@title"
+                                            data-summary="@summary"
+                                            data-price="@pizza.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                            data-image="@image">🛒 +</button>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+            </div>
+        </div>
+    </section>
+
+    <section class="section section--alt" id="cardapio">
+        <div class="container">
+            <div class="section__header section__header--tabs">
+                <h2>Cardápio</h2>
+                <div class="tabs">
+                    <button class="tab tab--active">Todos</button>
+                    <button class="tab">Tradicional</button>
+                    <button class="tab">Especial</button>
+                    <button class="tab">Doce</button>
+                </div>
+            </div>
+            <div class="carousel carousel--menu">
+                <button class="carousel__control carousel__control--prev" aria-label="Anterior">‹</button>
+                <div class="carousel__viewport">
+                    <div class="carousel__track">
+                        @if (Model.Pizzas.Count == 0)
+                        {
+                            <div class="surface" style="padding:16px;">
+                                <strong>Nenhuma pizza cadastrada ainda.</strong>
+                                <div style="margin-top:12px;">
+                                    <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Ir para o Admin</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var pizza in Model.Pizzas)
+                            {
+                                var title = !string.IsNullOrWhiteSpace(pizza.Nome) ? pizza.Nome : (!string.IsNullOrWhiteSpace(pizza.Sabor) ? pizza.Sabor : "Pizza");
+                                var category = !string.IsNullOrWhiteSpace(pizza.Categoria) ? pizza.Categoria : "Pizza";
+                                var image = !string.IsNullOrWhiteSpace(pizza.Image) ? pizza.Image : "/imgs/pizza%20panceta.jpeg";
+                                var summary = string.Join(" • ", new[] { category, pizza.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
+
+                                <article class="card card js-view-entity" role="button" tabindex="0" data-entity="pizza" data-id="@pizza.Id" data-url="@Url.Action("GetById", "Pizza", new { id = pizza.Id })">
+                                    <div class="card__image" style="background-image:url('@image');"></div>
+                                    <div class="card__body">
+                                        <h3>@title</h3>
+                                        <p class="card__category">@category</p>
+                                        <div class="card__meta">
+                                            <span>R$ @pizza.Preco.ToString("0.00")</span>
+                                            <button type="button"
+                                                    class="btn btn--ghost btn--sm js-add-to-cart"
+                                                    aria-label="Adicionar ao carrinho"
+                                                    data-entity="pizza"
+                                                    data-id="@pizza.Id"
+                                                    data-name="@title"
+                                                    data-summary="@summary"
+                                                    data-price="@pizza.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                                    data-image="@image">🛒 +</button>
+                                        </div>
+                                    </div>
+                                </article>
+                            }
+                        }
+                    </div>
+                </div>
+                <button class="carousel__control carousel__control--next" aria-label="Próximo">›</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="bebidas">
+        <div class="container">
+            <div class="section__header">
+                <h2>Bebidas</h2>
+            </div>
+            <div class="carousel carousel--menu">
+                <button class="carousel__control carousel__control--prev" aria-label="Anterior">‹</button>
+                <div class="carousel__viewport">
+                    <div class="carousel__track">
+                        @if (Model.Bebidas.Count == 0)
+                        {
+                            <div class="surface" style="padding:16px;">
+                                <strong>Nenhuma bebida cadastrada ainda.</strong>
+                                <div style="margin-top:12px;">
+                                    <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Ir para o Admin</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var bebida in Model.Bebidas)
+                            {
+                                var title = !string.IsNullOrWhiteSpace(bebida.Nome) ? bebida.Nome : (!string.IsNullOrWhiteSpace(bebida.Sabor) ? bebida.Sabor : "Bebida");
+                                var category = !string.IsNullOrWhiteSpace(bebida.Categoria) ? bebida.Categoria : "Bebidas";
+                                var image = !string.IsNullOrWhiteSpace(bebida.Image) ? bebida.Image : "/imgs/shared%20image%20(6).jpeg";
+                                var summary = string.Join(" • ", new[] { category, bebida.Sabor }.Where(s => !string.IsNullOrWhiteSpace(s)));
+
+                                <article class="card card js-view-entity" role="button" tabindex="0" data-entity="bebida" data-id="@bebida.Id" data-url="@Url.Action("GetById", "Bebida", new { id = bebida.Id })">
+                                    <div class="card__image" style="background-image:url('@image');"></div>
+                                    <div class="card__body">
+                                        <h3>@title</h3>
+                                        <p class="card__category">@category</p>
+                                        <div class="card__meta">
+                                            <span>R$ @bebida.Preco.ToString("0.00")</span>
+                                            <button type="button"
+                                                    class="btn btn--ghost btn--sm js-add-to-cart"
+                                                    aria-label="Adicionar ao carrinho"
+                                                    data-entity="bebida"
+                                                    data-id="@bebida.Id"
+                                                    data-name="@title"
+                                                    data-summary="@summary"
+                                                    data-price="@bebida.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                                    data-image="@image">🛒 +</button>
+                                        </div>
+                                    </div>
+                                </article>
+                            }
+                        }
+                    </div>
+                </div>
+                <button class="carousel__control carousel__control--next" aria-label="Próximo">›</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="eventos">
+        <div class="container">
+            <div class="carousel">
+                <button class="carousel__control carousel__control--prev" aria-label="Anterior">‹</button>
+                <div class="carousel__viewport">
+                    <div class="carousel__track">
+                        @if (Model.Eventos.Count == 0)
+                        {
+                            <div class="surface" style="padding:16px;">
+                                <strong>Nenhum evento cadastrado ainda.</strong>
+                                <div style="margin-top:12px;">
+                                    <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Ir para o Admin</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var evento in Model.Eventos)
+                            {
+                                var title = !string.IsNullOrWhiteSpace(evento.Nome) ? evento.Nome : "Evento";
+                                var subtitle = !string.IsNullOrWhiteSpace(evento.Local) ? evento.Local : (!string.IsNullOrWhiteSpace(evento.Descricao) ? evento.Descricao : "");
+                                var image = !string.IsNullOrWhiteSpace(evento.Image) ? evento.Image : "/imgs/reserva_evento.jpeg";
+                                var dateText = evento.DataEvento == default ? "" : evento.DataEvento.ToString("dd/MM/yyyy");
+                                var categoryText = !string.IsNullOrWhiteSpace(dateText) && !string.IsNullOrWhiteSpace(subtitle) ? $"{dateText} • {subtitle}" : (!string.IsNullOrWhiteSpace(dateText) ? dateText : subtitle);
+
+                                <article class="card card js-view-entity" role="button" tabindex="0" data-entity="evento" data-id="@evento.Id" data-url="@Url.Action("GetById", "Evento", new { id = evento.Id })">
+                                    <div class="card__image" style="background-image:url('@image');"></div>
+                                    <div class="card__body">
+                                        <h3>@title</h3>
+                                        @if (!string.IsNullOrWhiteSpace(categoryText))
+                                        {
+                                            <p class="card__category">@categoryText</p>
+                                        }
+                                    </div>
+                                </article>
+                            }
+                        }
+                    </div>
+                </div>
+                <button class="carousel__control carousel__control--next" aria-label="Próximo">›</button>
+            </div>
+            <div class="section__cta"><button class="btn btn--outline">Ver mais recomendações</button></div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="site-footer__inner">
+        <span class="site-footer__name">Mendê Pizzaria</span>
+        <p class="site-footer__tagline">Pizzas &amp; Panuzzos artesanais em eventos e festivais gastronômicos.</p>
+        <p class="site-footer__copy">© 2026 Mendê Pizzaria — Pizzas &amp; Panuzzos. Todos os direitos reservados.</p>
+    </div>
+</footer>

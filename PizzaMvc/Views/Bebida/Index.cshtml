@@ -1,0 +1,65 @@
+@model IEnumerable<PizzaMvc.Models.Bebida>
+@{
+    ViewBag.Title = "Bebidas";
+}
+
+<section class="section">
+    <div class="section__header">
+        <h2>Bebidas</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--primary" href="@Url.Action("Create", "Bebida")">Nova Bebida</a>
+        </div>
+    </div>
+
+    @if (Model?.Any() != true)
+    {
+        <div class="surface empty-state">
+            <h3>Nenhuma bebida cadastrada</h3>
+            <p>Cadastre uma bebida para ela aparecer aqui.</p>
+            <a class="btn btn--primary" href="@Url.Action("Create", "Bebida")">Cadastrar Bebida</a>
+        </div>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nome</th>
+                    <th>Sabor</th>
+                    <th>Preço</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(item.Image))
+                            {
+                                <img class="thumb" src="@item.Image" alt="@item.Nome" />
+                            }
+                        </td>
+                        <td>@item.Nome</td>
+                        <td>@item.Sabor</td>
+                        <td>@item.Preco.ToString("C")</td>
+                        <td>@item.Categoria</td>
+                        <td>
+                            <div class="data-table__actions">
+                                <button type="button" class="btn btn--sm btn--outline js-view-entity" data-entity="bebida" data-id="@item.Id" data-url="@Url.Action("GetById", "Bebida", new { id = item.Id })">Visualizar</button>
+                                <a class="btn btn--sm btn--warning" href="@Url.Action("Edit", "Bebida", new { id = item.Id })">Editar</a>
+                                <form action="@Url.Action("Delete", "Bebida", new { id = item.Id })" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn--sm btn--danger" onclick="return confirm('Confirma?')">Excluir</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

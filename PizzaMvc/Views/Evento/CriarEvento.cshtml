@@ -1,0 +1,58 @@
+@model PizzaMvc.Models.Evento
+@{
+    var evento = Model ?? new PizzaMvc.Models.Evento { DataEvento = DateTime.Now };
+    var isEdit = evento.Id > 0;
+    var dataValue = evento.DataEvento == default ? "" : evento.DataEvento.ToString("yyyy-MM-ddTHH:mm");
+    ViewBag.Title = isEdit ? "Editar Evento" : "Novo Evento";
+}
+<section class="section">
+    <div class="section__header">
+        <h2>@(isEdit ? "Editar Evento" : "Novo Evento")</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Evento")">Ver Eventos</a>
+        </div>
+    </div>
+
+    <div class="surface">
+        <form class="form" method="post" enctype="multipart/form-data" action="@(isEdit ? Url.Action("Edit", "Evento", new { id = evento.Id }) : Url.Action("Create", "Evento"))">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id" value="@evento.Id" />
+
+            <div class="form__grid">
+                <div class="field">
+                    <label for="Nome">Nome</label>
+                    <input id="Nome" name="Nome" class="input" value="@evento.Nome" required />
+                </div>
+                <div class="field">
+                    <label for="DataEvento">Data do Evento</label>
+                    <input id="DataEvento" name="DataEvento" type="datetime-local" class="input" value="@dataValue" required />
+                </div>
+                <div class="field">
+                    <label for="Local">Local</label>
+                    <input id="Local" name="Local" class="input" value="@evento.Local" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="Descricao">Descrição</label>
+                <textarea id="Descricao" name="Descricao" class="textarea">@evento.Descricao</textarea>
+            </div>
+
+            <div class="field">
+                <label for="imageFile">Imagem</label>
+                @if (isEdit && !string.IsNullOrWhiteSpace(evento.Image))
+                {
+                    <img class="thumb" src="@evento.Image" alt="@evento.Nome" />
+                }
+                <input id="imageFile" name="imageFile" type="file" accept="image/*" class="input" />
+                <div class="help-text">PNG, JPG, JPEG, WEBP ou GIF</div>
+            </div>
+
+            <div class="actions-bar">
+                <button type="submit" class="btn btn--primary">Salvar</button>
+                <a class="btn btn--outline" href="@Url.Action("Index", "Evento")">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>

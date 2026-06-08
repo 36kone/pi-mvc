@@ -1,0 +1,60 @@
+@model PizzaMvc.Models.Bebida
+@{
+    var bebida = Model ?? new PizzaMvc.Models.Bebida();
+    var isEdit = bebida.Id > 0;
+    ViewBag.Title = isEdit ? "Editar Bebida" : "Nova Bebida";
+}
+<section class="section">
+    <div class="section__header">
+        <h2>@(isEdit ? "Editar Bebida" : "Nova Bebida")</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--outline" href="@Url.Action("Index", "Bebida")">Ver Bebidas</a>
+        </div>
+    </div>
+
+    <div class="surface">
+        <form class="form" method="post" enctype="multipart/form-data" action="@(isEdit ? Url.Action("Edit", "Bebida", new { id = bebida.Id }) : Url.Action("Create", "Bebida"))">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="Id" value="@bebida.Id" />
+            <div class="form__grid">
+                <div class="field">
+                    <label for="Nome">Nome</label>
+                    <input id="Nome" name="Nome" class="input" value="@bebida.Nome" required />
+                </div>
+                <div class="field">
+                    <label for="Sabor">Sabor</label>
+                    <input id="Sabor" name="Sabor" class="input" value="@bebida.Sabor" />
+                </div>
+                <div class="field">
+                    <label for="Preco">Preço</label>
+                    <input id="Preco" name="Preco" type="number" step="0.01" class="input" value="@bebida.Preco" required />
+                </div>
+                <div class="field">
+                    <label for="Categoria">Categoria</label>
+                    <input id="Categoria" name="Categoria" class="input" value="@bebida.Categoria" />
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="Descricao">Descrição</label>
+                <textarea id="Descricao" name="Descricao" class="textarea">@bebida.Descricao</textarea>
+            </div>
+
+            <div class="field">
+                <label for="imageFile">Imagem</label>
+                @if (isEdit && !string.IsNullOrWhiteSpace(bebida.Image))
+                {
+                    <img class="thumb" src="@bebida.Image" alt="@bebida.Nome" />
+                }
+                <input id="imageFile" name="imageFile" type="file" accept="image/*" class="input" />
+                <div class="help-text">PNG, JPG, JPEG, WEBP ou GIF</div>
+            </div>
+
+            <div class="actions-bar">
+                <button type="submit" class="btn btn--primary">Salvar</button>
+                <a class="btn btn--outline" href="@Url.Action("Index", "Bebida")">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>

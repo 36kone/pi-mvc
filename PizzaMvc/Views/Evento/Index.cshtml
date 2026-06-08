@@ -1,0 +1,63 @@
+@model IEnumerable<PizzaMvc.Models.Evento>
+@{
+    ViewBag.Title = "Eventos";
+}
+
+<section class="section">
+    <div class="section__header">
+        <h2>Eventos</h2>
+        <div class="actions-bar">
+            <a class="btn btn--outline" href="@Url.Action("Index", "Admin")">Admin</a>
+            <a class="btn btn--primary" href="@Url.Action("Create", "Evento")">Novo Evento</a>
+        </div>
+    </div>
+
+    @if (Model?.Any() != true)
+    {
+        <div class="surface empty-state">
+            <h3>Nenhum evento cadastrado</h3>
+            <p>Cadastre um evento para ele aparecer aqui.</p>
+            <a class="btn btn--primary" href="@Url.Action("Create", "Evento")">Cadastrar Evento</a>
+        </div>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nome</th>
+                    <th>Data</th>
+                    <th>Local</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(item.Image))
+                            {
+                                <img class="thumb" src="@item.Image" alt="@item.Nome" />
+                            }
+                        </td>
+                        <td>@item.Nome</td>
+                        <td>@item.DataEvento.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@item.Local</td>
+                        <td>
+                            <div class="data-table__actions">
+                                <button type="button" class="btn btn--sm btn--outline js-view-entity" data-entity="evento" data-id="@item.Id" data-url="@Url.Action("GetById", "Evento", new { id = item.Id })">Visualizar</button>
+                                <a class="btn btn--sm btn--warning" href="@Url.Action("Edit", "Evento", new { id = item.Id })">Editar</a>
+                                <form action="@Url.Action("Delete", "Evento", new { id = item.Id })" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button class="btn btn--sm btn--danger" onclick="return confirm('Confirma?')">Excluir</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

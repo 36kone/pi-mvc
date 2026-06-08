@@ -1,0 +1,57 @@
+{
+  "Files": [
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/css/cart.css",
+      "PackagePath": "staticwebassets/css/cart.css"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/css/login.css",
+      "PackagePath": "staticwebassets/css/login.css"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/css/navbar.css",
+      "PackagePath": "staticwebassets/css/navbar.css"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/css/register.css",
+      "PackagePath": "staticwebassets/css/register.css"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/css/status_pedido.css",
+      "PackagePath": "staticwebassets/css/status_pedido.css"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/css/styles.css",
+      "PackagePath": "staticwebassets/css/styles.css"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/images/MENDE_LOGO.jpeg_page-0001.jpg",
+      "PackagePath": "staticwebassets/images/MENDE_LOGO.jpeg_page-0001.jpg"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/js/main.js",
+      "PackagePath": "staticwebassets/js/main.js"
+    },
+    {
+      "Id": "/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/wwwroot/js/navbar.js",
+      "PackagePath": "staticwebassets/js/navbar.js"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.PizzaMvc.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.PizzaMvc.props",
+      "PackagePath": "build\\PizzaMvc.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.PizzaMvc.props",
+      "PackagePath": "buildMultiTargeting\\PizzaMvc.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.PizzaMvc.props",
+      "PackagePath": "buildTransitive\\PizzaMvc.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

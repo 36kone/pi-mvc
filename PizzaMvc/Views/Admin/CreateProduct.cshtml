@@ -1,0 +1,16 @@
+@{
+    ViewBag.Title = "Cadastrar Produto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="admin-title">Cadastrar Produto</h2>
+
+@await Html.PartialAsync("_FormPartial", new {
+    Action = "CreateProduct",
+    Controller = "Admin",
+    Fields = new dynamic[] {
+        new { Name = "Nome",      Type = "text",   Required = true,  Step = "", Placeholder = "" },
+        new { Name = "Descrição", Type = "textarea", Required = false, Step = "", Placeholder = "" },
+        new { Name = "Preço",     Type = "number", Step = "0.01", Required = true, Placeholder = "" },
+        new { Name = "ImagemUrl", Type = "url",    Required = false, Step = "", Placeholder = "" }
+    }
+})

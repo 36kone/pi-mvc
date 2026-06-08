@@ -1,0 +1,29 @@
+@model PizzaMvc.Models.Pedido
+@{
+    ViewBag.Title = "Editar Pedido";
+}
+
+<h2>Editar Pedido #@Model.Id</h2>
+<form method="post" action="/Pedido/Edit/@Model.Id">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="mb-3">
+        <label>Cliente</label>
+        <select name="ClienteId" class="form-control">
+            @foreach (var c in ViewBag.Clientes)
+            {
+                <option value="@c.Id" selected="@(Model.ClienteId == c.Id)">@c.Nome</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Status</label>
+        <select name="Status" class="form-control">
+            <option value="Feito" selected="@(Model.Status == "Feito")">Feito</option>
+            <option value="Em Produção" selected="@(Model.Status == "Em Produção")">Em Produção</option>
+            <option value="Pronto" selected="@(Model.Status == "Pronto")">Pronto</option>
+            <option value="Entregue" selected="@(Model.Status == "Entregue")">Entregue</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="/Pedido" class="btn btn-secondary">Voltar</a>
+</form>

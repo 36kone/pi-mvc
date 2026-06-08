@@ -1,0 +1,151 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = PizzaMvc
+build_property.RootNamespace = PizzaMvc
+build_property.ProjectDir = /home/kone/RiderProjects/pi-mvc-main/PizzaMvc/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /home/kone/RiderProjects/pi-mvc-main/PizzaMvc
+build_property._RazorSourceGeneratorDebug = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Admin/CreatePizza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ3JlYXRlUGl6emEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Admin/CreateProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ3JlYXRlUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Admin/_FormPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vX0Zvcm1QYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Bebida/CriarBebida.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmViaWRhL0NyaWFyQmViaWRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Bebida/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQmViaWRhL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Cart/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2FydC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Cliente/CriarCliente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xpZW50ZS9DcmlhckNsaWVudGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Cliente/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xpZW50ZS9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Cliente/EditarCliente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xpZW50ZS9FZGl0YXJDbGllbnRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Cliente/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2xpZW50ZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Evento/CriarEvento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRvL0NyaWFyRXZlbnRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Evento/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRvL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Evento/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRXZlbnRvL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Home/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9TZWFyY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Login/login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTG9naW4vbG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pedido/CriarPedido.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGVkaWRvL0NyaWFyUGVkaWRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pedido/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGVkaWRvL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pedido/EditarPedido.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGVkaWRvL0VkaXRhclBlZGlkby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pedido/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGVkaWRvL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pedido/MeusPedidos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGVkaWRvL01ldXNQZWRpZG9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pizza/CriarPizza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGl6emEvQ3JpYXJQaXp6YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pizza/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGl6emEvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pizza/EditarPizza.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGl6emEvRWRpdGFyUGl6emEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Pizza/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGl6emEvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Usuario/CriarUsuario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9DcmlhclVzdWFyaW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Usuario/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Usuario/EditarUsuario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9FZGl0YXJVc3VhcmlvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/Usuario/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXN1YXJpby9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/kone/RiderProjects/pi-mvc-main/PizzaMvc/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

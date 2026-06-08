@@ -1,0 +1,12 @@
+@model PizzaMvc.Models.Pedido
+@{
+    ViewBag.Title = "Excluir Pedido";
+}
+
+<h2>Excluir Pedido</h2>
+<p>Confirma exclusão do pedido <strong>#@Model.Id</strong> do cliente <strong>@Model.Cliente?.Nome</strong>?</p>
+<form method="post" action="/Pedido/DeleteConfirmed/@Model.Id">
+    <input type="hidden" name="_method" value="DELETE">
+    <button type="submit" class="btn btn-danger">Confirmar</button>
+    <a href="/Pedido" class="btn btn-secondary">Voltar</a>
+</form>
