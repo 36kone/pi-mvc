@@ -38,12 +38,15 @@ pi-mvc/
 │   │   ├── ClienteController.cs
 │   │   ├── EventoController.cs
 │   │   ├── HomeController.cs
+│   │   ├── LoginController.cs
 │   │   ├── PagamentoController.cs
 │   │   ├── PedidoController.cs
 │   │   ├── PizzaController.cs
 │   │   └── UsuarioController.cs
 │   ├── Data/                        # Contexto do banco de dados
 │   │   └── AppDbContext.cs
+│   ├── Helpers/                     # Utilitários compartilhados
+│   │   └── ImageUploadHelper.cs     # Upload e validação de imagens
 │   ├── Models/                      # Entidades do domínio
 │   │   ├── Bebida.cs
 │   │   ├── Cliente.cs
@@ -60,6 +63,7 @@ pi-mvc/
 │   │   ├── Cliente/
 │   │   ├── Evento/
 │   │   ├── Home/
+│   │   ├── Login/
 │   │   ├── Pedido/
 │   │   ├── Pizza/
 │   │   ├── Usuario/
@@ -69,24 +73,30 @@ pi-mvc/
 │   │   ├── css/
 │   │   ├── images/
 │   │   └── js/
+│   ├── files/                       # Imagens enviadas pelo upload (servidas em /files)
+│   │   ├── pizzas/
+│   │   ├── bebidas/
+│   │   └── eventos/
 │   ├── appsettings.json             # Configurações da aplicação
 │   └── Program.cs                   # Configuração de serviços
 ├── docs/
-│   └── FACULDADE DE TECNOLOGIA DE ATIBAIA 4343.pdf
-│   └── mer.jpg   
+│   ├── FACULDADE DE TECNOLOGIA DE ATIBAIA 4343.pdf
+│   └── mer.jpeg
 └── database.sql               # Script de criação do banco de dados
 ```
 
 ## 🚀 Funcionalidades Implementadas
 
 ### 🍕 Gestão de Produtos (Pizzas)
-- Cadastro de pizzas com nome, sabor, descrição, preço e categoria
+- Cadastro de pizzas com nome, sabor, descrição, preço, categoria e **imagem**
 - Categorias: Tradicional, Especial e Doce
+- Upload de imagem com exibição no cardápio do front-end
 - Edição e exclusão de produtos
 - Listagem completa de pizzas cadastradas
 
 ### 🥤 Gestão de Produtos (Bebidas)
 - Cadastro, edição, exclusão e listagem de bebidas
+- Upload de imagem com exibição no cardápio do front-end
 
 ### 👥 Gestão de Clientes
 - Cadastro de clientes com nome, telefone, email e CPF/CNPJ
@@ -96,7 +106,7 @@ pi-mvc/
 ### 📦 Gestão de Pedidos
 - Registro de pedidos com múltiplos itens (pizzas e bebidas) e cálculo automático do total
 - Checkout a partir do carrinho (com forma de pagamento)
-- Tela **Meus Pedidos** (cliente) com busca por CPF/CNPJ e memória local (localStorage) para não precisar de login
+- Tela **Meus Pedidos** (cliente) com busca por CPF/CNPJ, sem necessidade de login (o cliente é lembrado por cookie e os dados ficam no `localStorage` do navegador)
 - Listagem de pedidos (admin) com botões para transição de status:
   - **Pendente** → **Em Andamento** → **Concluido**
 
@@ -107,9 +117,21 @@ pi-mvc/
 
 ### 📅 Gestão de Eventos
 - Cadastro, edição, exclusão e listagem de eventos
+- Upload de imagem para divulgação do evento
 
 ### 🧑‍💼 Gestão de Usuários
 - Cadastro, edição, exclusão e listagem de usuários
+
+### 🔐 Acesso Administrativo (login simulado)
+- A área administrativa (`/Admin`) é protegida por uma tela de login simples
+- Login de **demonstração**: usuário `admin` e senha `admin`, validados no front-end (JavaScript)
+- A sessão é mantida no navegador (`sessionStorage`)
+- ⚠️ Não é autenticação real/segura — serve apenas para fins de apresentação do projeto
+
+### 🖼️ Upload de Imagens
+- Pizzas, bebidas e eventos podem ter uma imagem enviada pelo formulário
+- Os arquivos são salvos na pasta `files/` do projeto (sem necessidade de bucket externo)
+- No banco é guardado apenas o caminho (ex.: `/files/pizzas/<arquivo>`), servido estaticamente em `/files`
 
 ## ⚙️ Como Executar o Projeto
 
@@ -149,7 +171,8 @@ pi-mvc/
    ```
 
 5. **Acesse a aplicação:**
-   - Abra o navegador em: `https://localhost:5001` ou `http://localhost:5000`
+   - Abra o navegador em: `https://localhost:52767` ou `http://localhost:52768`
+   - (as portas podem ser ajustadas em `PizzaMvc/Properties/launchSettings.json`)
 
 ## 🗄️ Modelo de Dados
 
@@ -195,7 +218,7 @@ Como este é um projeto acadêmico simplificado, as seguintes funcionalidades po
 - [ ] Integração com PIX para pagamentos
 - [ ] Controle de estoque de ingredientes
 - [ ] Aplicativo mobile (PWA)
-- [ ] Autenticação e autorização de usuários
+- [ ] Autenticação e autorização **reais** (o login atual do `/Admin` é apenas simulado no front-end)
 
 ## 📄 Licença
 

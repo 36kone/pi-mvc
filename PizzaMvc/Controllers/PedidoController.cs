@@ -1,9 +1,8 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PizzaMvc.Data;
 using PizzaMvc.Models;
-using System.Text.Json;
 
 namespace PizzaMvc.Controllers;
 
@@ -21,14 +20,7 @@ public class PedidoController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var pedidos = await _context.Pedidos
-            .Include(p => p.Cliente)
-            .Include(p => p.Itens)
-            .ThenInclude(i => i.Pizza)
-            .Include(p => p.Itens)
-            .ThenInclude(i => i.Bebida)
-            .Include(p => p.Pagamento)
-            .ToListAsync();
+        var pedidos = await WithDetails(_context.Pedidos).ToListAsync();
         return View(pedidos);
     }
 
@@ -44,26 +36,11 @@ public class PedidoController : Controller
     {
         if (clientId <= 0) return NotFound();
 
-        var pedidos = await _context.Pedidos
-            .AsNoTracking()
-            .Where(p => p.ClienteId == clientId)
-            .Include(p => p.Cliente)
-            .Include(p => p.Pagamento)
-            .Include(p => p.Itens)
-            .ThenInclude(i => i.Pizza)
-            .Include(p => p.Itens)
-            .ThenInclude(i => i.Bebida)
+        var pedidos = await WithDetails(_context.Pedidos.AsNoTracking().Where(p => p.ClienteId == clientId))
             .OrderByDescending(p => p.DataPedido)
             .ToListAsync();
 
-        Response.Cookies.Append(ClientIdCookieName, clientId.ToString(), new CookieOptions
-        {
-            Expires = DateTimeOffset.UtcNow.AddDays(30),
-            HttpOnly = true,
-            IsEssential = true,
-            SameSite = SameSiteMode.Lax,
-            Secure = false
-        });
+        AppendClientIdCookie(clientId);
 
         return View("MeusPedidos", pedidos);
     }
@@ -94,15 +71,7 @@ public class PedidoController : Controller
             return View("MeusPedidos", Enumerable.Empty<Pedido>());
         }
 
-        var pedidos = await _context.Pedidos
-            .AsNoTracking()
-            .Where(p => p.ClienteId == cliente.Id)
-            .Include(p => p.Cliente)
-            .Include(p => p.Pagamento)
-            .Include(p => p.Itens)
-            .ThenInclude(i => i.Pizza)
-            .Include(p => p.Itens)
-            .ThenInclude(i => i.Bebida)
+        var pedidos = await WithDetails(_context.Pedidos.AsNoTracking().Where(p => p.ClienteId == cliente.Id))
             .OrderByDescending(p => p.DataPedido)
             .ToListAsync();
 
@@ -203,17 +172,6 @@ public class PedidoController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AtualizarStatus(int id, string status)
-    {
-        var pedido = await _context.Pedidos.FindAsync(id);
-        if (pedido == null) return NotFound();
-
-        pedido.Status = status;
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
-    }
-
-    [HttpPost]
     public async Task<IActionResult> UpdateStatus(int id, string status)
     {
         var pedido = await _context.Pedidos.FindAsync(id);
@@ -235,42 +193,21 @@ public class PedidoController : Controller
     [HttpGet]
     public IActionResult Checkout()
     {
-        ViewBag.Checkout = true;
-        ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
-        ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
-        return View("~/Views/Cliente/CriarCliente.cshtml", new Cliente());
+        return CheckoutView(new Cliente());
     }
 
     [HttpPost]
     public async Task<IActionResult> PlaceOrder(Cliente cliente, string formaPagamento, string cartJson)
     {
         if (string.IsNullOrWhiteSpace(formaPagamento))
-        {
-            ViewBag.Checkout = true;
-            ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
-            ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
-            ViewBag.Error = "Selecione a forma de pagamento.";
-            return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
-        }
+            return CheckoutView(cliente, "Selecione a forma de pagamento.");
 
         if (string.IsNullOrWhiteSpace(cliente?.Nome))
-        {
-            ViewBag.Checkout = true;
-            ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
-            ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
-            ViewBag.Error = "Informe o nome do cliente.";
-            return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
-        }
+            return CheckoutView(cliente, "Informe o nome do cliente.");
 
         cliente.CpfCnpj = NormalizeCpfCnpj(cliente.CpfCnpj);
         if (string.IsNullOrWhiteSpace(cliente.CpfCnpj))
-        {
-            ViewBag.Checkout = true;
-            ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
-            ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
-            ViewBag.Error = "Informe o CPF/CNPJ.";
-            return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
-        }
+            return CheckoutView(cliente, "Informe o CPF/CNPJ.");
 
         List<CartItemPayload> payload;
         try
@@ -384,27 +321,42 @@ public class PedidoController : Controller
             await _context.SaveChangesAsync();
             await tx.CommitAsync();
 
-            Response.Cookies.Append(ClientIdCookieName, cliente.Id.ToString(), new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddDays(30),
-                HttpOnly = true,
-                IsEssential = true,
-                SameSite = SameSiteMode.Lax,
-                Secure = false
-            });
+            AppendClientIdCookie(cliente.Id);
 
             return RedirectToAction("Index", "Home", new { pedido = pedido.Id });
         }
         catch
         {
             await tx.RollbackAsync();
-            ViewBag.Checkout = true;
-            ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
-            ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
-            ViewBag.Error = "Não foi possível finalizar o pedido. Tente novamente.";
-            return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
+            return CheckoutView(cliente, "Não foi possível finalizar o pedido. Tente novamente.");
         }
     }
+
+    private static IQueryable<Pedido> WithDetails(IQueryable<Pedido> query) =>
+        query
+            .Include(p => p.Cliente)
+            .Include(p => p.Pagamento)
+            .Include(p => p.Itens).ThenInclude(i => i.Pizza)
+            .Include(p => p.Itens).ThenInclude(i => i.Bebida);
+
+    private IActionResult CheckoutView(Cliente cliente, string? error = null)
+    {
+        ViewBag.Checkout = true;
+        ViewBag.FormAction = Url.Action("PlaceOrder", "Pedido") ?? "/Pedido/PlaceOrder";
+        ViewBag.CancelUrl = Url.Action("Index", "Cart") ?? "/Cart";
+        if (error != null) ViewBag.Error = error;
+        return View("~/Views/Cliente/CriarCliente.cshtml", cliente);
+    }
+
+    private void AppendClientIdCookie(int clientId) =>
+        Response.Cookies.Append(ClientIdCookieName, clientId.ToString(), new CookieOptions
+        {
+            Expires = DateTimeOffset.UtcNow.AddDays(30),
+            HttpOnly = true,
+            IsEssential = true,
+            SameSite = SameSiteMode.Lax,
+            Secure = false
+        });
 
     private int? TryGetClientIdFromCookie()
     {
